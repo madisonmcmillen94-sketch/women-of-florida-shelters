@@ -1,283 +1,289 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Women Of Florida Shelters (WOFS) | Resource & Peer Support Hub</title>
-  
-  <!-- Tailwind CSS & Leaflet CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  
-  <style>
-    #resource-map { height: 500px; width: 100%; border-radius: 12px; }
-    .custom-pin { border: 2px solid white; border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-  </style>
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+"""
+Women of Florida Shelters — Florida DV Centers Carousel
+Generates a set of square (1080x1080) PNG slides listing all 42 FCADV-certified
+Florida domestic violence centers, grouped by region, plus a title slide and a
+closing hotline slide. Also writes a ready-to-paste Facebook caption.
 
-  <!-- Navigation -->
-  <nav class="bg-purple-950 text-white sticky top-0 z-50 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center font-bold text-purple-950 text-xl shadow">
-            WO
-          </div>
-          <div>
-            <span class="font-bold text-lg tracking-wide text-amber-400 block">WOMEN OF FLORIDA SHELTERS</span>
-            <span class="text-xs text-purple-200 block">Community Resource & Peer Navigation Hub</span>
-          </div>
-        </div>
-        <div class="hidden md:flex space-x-6 text-sm font-semibold">
-          <a href="#about" class="hover:text-amber-400 transition">About WOFS</a>
-          <a href="#ship-checklist" class="hover:text-amber-400 transition">SHIP Checklist</a>
-          <a href="#interactive-map" class="hover:text-amber-400 transition">Statewide Map</a>
-          <a href="#donate-router" class="bg-amber-500 text-purple-950 px-4 py-2 rounded-lg font-bold hover:bg-amber-400 transition shadow">Support Verified Shelters</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+Run: python3 generate_carousel.py
+Output: ./output/slide_01_title.png ... slide_NN_hotline.png, caption.txt
+"""
 
-  <!-- Hero Section -->
-  <header class="bg-gradient-to-r from-purple-900 via-purple-850 to-indigo-900 text-white py-16 px-4">
-    <div class="max-w-5xl mx-auto text-center">
-      <span class="inline-block bg-purple-800 text-amber-300 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
-        Peer Support & Housing Navigation
-      </span>
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
-        Connecting Florida Women & Families to Critical Housing Resources
-      </h1>
-      <p class="text-lg sm:text-xl text-purple-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-        We provide clear steps for state housing programs, emergency shelter navigation, and direct routing to verified local non-profit crisis centers across Florida.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="#ship-checklist" class="bg-amber-500 text-purple-950 font-bold px-6 py-3 rounded-lg shadow-lg hover:bg-amber-400 transition">
-          View Housing Checklist
-        </a>
-        <a href="#donate-router" class="bg-purple-800 border border-purple-400 text-white font-bold px-6 py-3 rounded-lg hover:bg-purple-700 transition">
-          Donate to Local Shelters
-        </a>
-      </div>
-    </div>
-  </header>
+from PIL import Image, ImageDraw, ImageFont
+import os
+import textwrap
 
-  <!-- Emergency Banner -->
-  <div class="bg-red-700 text-white py-3 px-4 text-center font-medium text-sm sm:text-base">
-    <p>
-      🚨 <span class="font-bold">In immediate crisis or danger?</span> Call <strong>911</strong> or contact the Florida Domestic Violence Hotline 24/7 at <strong>1-800-500-1119</strong> or dial <strong>2-1-1</strong>.
-    </p>
-  </div>
+# ---------- Config ----------
 
-  <!-- About Section -->
-  <section id="about" class="py-12 px-4 max-w-5xl mx-auto">
-    <div class="bg-white rounded-2xl p-8 shadow-sm border border-purple-100">
-      <h2 class="text-2xl font-bold text-purple-900 mb-4">About Women Of Florida Shelters</h2>
-      <p class="text-slate-600 leading-relaxed mb-4">
-        Women Of Florida Shelters (WOFS) is an independent community awareness initiative and peer resource hub designed to help unhoused individuals, survivors, and families navigate state housing systems, county assistance programs, and emergency shelter care.
-      </p>
-      <p class="text-slate-600 leading-relaxed">
-        WOFS is not a direct financial solicitor or shelter operator. To ensure 100% transparency and compliance with Florida laws, our platform directs all public financial support directly to certified, registered 501(c)(3) emergency shelters and community partners serving Florida counties.
-      </p>
-    </div>
-  </section>
+W, H = 1080, 1080
+OUT_DIR = os.path.join(os.path.dirname(__file__), "output")
+os.makedirs(OUT_DIR, exist_ok=True)
 
-  <!-- SHIP Checklist Section -->
-  <section id="ship-checklist" class="py-12 bg-purple-50 px-4">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold text-purple-950">Florida SHIP Housing Assistance Checklist</h2>
-        <p class="text-slate-600 mt-2">Required documentation when applying for county rental move-in or down payment assistance</p>
-      </div>
+FONT_DIR = "/usr/share/fonts/truetype/dejavu"
+F_BOLD = os.path.join(FONT_DIR, "DejaVuSans-Bold.ttf")
+F_REG = os.path.join(FONT_DIR, "DejaVuSans.ttf")
 
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Step 1 -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-purple-100">
-          <div class="text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">Category 1</div>
-          <h3 class="font-bold text-lg text-slate-900 mb-3">Identification</h3>
-          <ul class="space-y-2 text-sm text-slate-600">
-            <li class="flex items-start">✅ <span class="ml-2">Unexpired FL Driver's License or Photo ID (all adults 18+)</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">Social Security Cards for every household member</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">Birth Certificates for all minor children</span></li>
-          </ul>
-        </div>
+# Warm, calm palette — approachable but credible for a resource page
+BG_TOP = (91, 74, 122)      # deep plum
+BG_BOTTOM = (58, 47, 92)    # darker plum
+CARD_BG = (255, 255, 255)
+ACCENT = (222, 163, 96)     # warm gold accent
+TEXT_DARK = (43, 38, 56)
+TEXT_MUTED = (110, 104, 122)
+TEXT_LIGHT = (255, 255, 255)
+HOTLINE_BG = (196, 90, 90)  # warm red-orange for the closing hotline slide
 
-        <!-- Step 2 -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-purple-100">
-          <div class="text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">Category 2</div>
-          <h3 class="font-bold text-lg text-slate-900 mb-3">Income Verification</h3>
-          <ul class="space-y-2 text-sm text-slate-600">
-            <li class="flex items-start">✅ <span class="ml-2">Past 3 months of pay stubs (if employed)</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">SSA / SSI / SSDI Award Letter (current year)</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">3-6 months of complete bank statements</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">SNAP/Medicaid DCF Benefit Statements</span></li>
-          </ul>
-        </div>
+MARGIN = 64
 
-        <!-- Step 3 -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-purple-100">
-          <div class="text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">Category 3</div>
-          <h3 class="font-bold text-lg text-slate-900 mb-3">Housing & Priority</h3>
-          <ul class="space-y-2 text-sm text-slate-600">
-            <li class="flex items-start">✅ <span class="ml-2">Signed Shelter Residency Verification Letter</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">Proposed Lease or Landlord Intent Form</span></li>
-            <li class="flex items-start">✅ <span class="ml-2">Disability Medical Verification (Form CF-ES 2314)</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+# ---------- Data ----------
+# (Organization, counties served)
 
-  <!-- Interactive Map Section -->
-  <section id="interactive-map" class="py-12 px-4 max-w-6xl mx-auto w-full">
-    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div>
-        <h2 class="text-2xl font-bold text-purple-950">Florida Community & Education Directory Map</h2>
-        <p class="text-sm text-slate-600">Find colleges, DCF offices, emergency shelters, and county resource centers.</p>
-      </div>
-      <div class="flex flex-wrap gap-2 text-xs font-semibold">
-        <span class="px-3 py-1 bg-blue-600 text-white rounded-full">🎓 Colleges</span>
-        <span class="px-3 py-1 bg-emerald-600 text-white rounded-full">🏛️ DCF ACCESS</span>
-        <span class="px-3 py-1 bg-purple-600 text-white rounded-full">💜 DV Shelters</span>
-        <span class="px-3 py-1 bg-amber-600 text-white rounded-full">🏢 County Hubs</span>
-      </div>
-    </div>
-    <div id="resource-map" class="shadow-md border border-slate-200"></div>
-  </section>
+REGIONS = {
+    "Panhandle": [
+        ("Favor House of Northwest Florida", "Escambia, Santa Rosa"),
+        ("Shelter House, Inc.", "Okaloosa, Walton"),
+        ("Salvation Army of Panama City", "Bay, Calhoun, Gulf, Holmes, Jackson, Washington"),
+        ("Refuge House", "Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla"),
+    ],
+    "North Central": [
+        ("Another Way, Inc.", "Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy"),
+        ("Vivid Visions, Inc.", "Suwannee"),
+        ("Peaceful Paths Domestic Abuse Network", "Alachua, Bradford, Union"),
+        ("Ocala Domestic Violence / Sexual Assault Center", "Marion"),
+    ],
+    "Northeast": [
+        ("Hubbard House (Spouse Abuse, Inc.)", "Baker, Duval"),
+        ("Micah's Place, Inc.", "Nassau"),
+        ("Quigley House, Inc.", "Clay"),
+        ("Betty Griffin House (Safety Shelter of St. Johns Co.)", "St. Johns"),
+        ("Lee Conlee House", "Putnam"),
+        ("Beacon Center", "Volusia"),
+        ("Family Life Center (Flagler Ecumenical SSC)", "Flagler"),
+    ],
+    "Central": [
+        ("Harbor House", "Orange"),
+        ("Haven of Lake and Sumter Counties", "Sumter, Lake"),
+        ("Help Now of Osceola, Inc.", "Osceola"),
+        ("Peace River Center DV Shelter", "Hardee, Highlands, Polk"),
+    ],
+    "Tampa Bay": [
+        ("Community Action Stops Abuse", "Pinellas"),
+        ("The Haven of RCS", "Pinellas"),
+        ("DAWN Center of Hernando Co. (Salvare, Inc.)", "Hernando"),
+        ("Sunrise of Pasco", "Pasco"),
+        ("Salvation Army DV Program of West Pasco", "Pasco"),
+        ("The Spring of Tampa Bay, Inc.", "Hillsborough"),
+        ("Citrus County Abuse Shelter Assoc. (CASA)", "Citrus"),
+    ],
+    "Southwest": [
+        ("Abuse Counseling and Treatment, Inc. (ACT)", "Glades, Hendry, Lee"),
+        ("Center for Abuse and Rape Emergencies (CARE)", "Charlotte"),
+        ("Safe Place and Rape Crisis Center (SPARCC)", "DeSoto, Sarasota"),
+        ("Shelter for Abused Women & Children (SAWCC)", "Collier"),
+    ],
+    "Space & Treasure Coast": [
+        ("Salvation Army Brevard County", "Brevard"),
+        ("Serene Harbor", "Brevard"),
+        ("SafeSpace, Inc.", "Indian River, Martin, St. Lucie"),
+        ("Martha's House", "Okeechobee"),
+        ("SafeHouse of Seminole", "Seminole"),
+    ],
+    "Southeast": [
+        ("Aid to Victims of Domestic Abuse", "Palm Beach"),
+        ("YWCA Harmony House of Palm Beach County", "Palm Beach"),
+        ("Women In Distress of Broward County", "Broward"),
+        ("HOPE Family Services, Inc.", "Manatee"),
+    ],
+    "South Florida": [
+        ("Miami-Dade Advocates for Victims, Safespace", "North Miami-Dade"),
+        ("The Lodge (Victim Response, Inc.)", "Miami-Dade"),
+        ("Domestic Abuse Shelter", "Monroe"),
+    ],
+}
 
-  <!-- County Shelter Donation Router -->
-  <section id="donate-router" class="py-16 bg-gradient-to-b from-purple-900 to-purple-950 text-white px-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-12">
-        <span class="bg-amber-500 text-purple-950 font-extrabold text-xs uppercase px-3 py-1 rounded-full">100% Direct Impact</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Support Florida Certified Emergency Shelters</h2>
-        <p class="text-purple-200 mt-2 max-w-2xl mx-auto text-sm sm:text-base">
-          Donate directly to verified 501(c)(3) organizations serving survivors and unhoused families in your region. Your donation goes straight to their official payment portal.
-        </p>
-      </div>
+STATEWIDE_HOTLINE = "1-800-500-1119"
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        <!-- Refuge House -->
-        <div class="bg-purple-900/60 border border-purple-700/60 p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Big Bend Region (Leon, Wakulla, Gadsden...)</div>
-            <h3 class="text-xl font-bold text-white mb-2">Refuge House</h3>
-            <p class="text-xs text-purple-200 mb-4">Emergency shelter, 24/7 crisis response, counseling, and transitional housing services.</p>
-            <p class="text-xs text-purple-300 font-semibold mb-4">📞 Helpline: (850) 681-2111</p>
-          </div>
-          <a href="https://refugehouse.com/donations/donate-to-refuge-house/" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-amber-500 hover:bg-amber-400 text-purple-950 font-bold py-2.5 rounded-xl transition">
-            Donate Directly to Refuge House ↗
-          </a>
-        </div>
+# ---------- Helpers ----------
 
-        <!-- Hubbard House -->
-        <div class="bg-purple-900/60 border border-purple-700/60 p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Northeast FL (Duval & Baker Counties)</div>
-            <h3 class="text-xl font-bold text-white mb-2">Hubbard House</h3>
-            <p class="text-xs text-purple-200 mb-4">Full-service domestic violence center providing emergency shelter and victim advocacy.</p>
-            <p class="text-xs text-purple-300 font-semibold mb-4">📞 Helpline: (904) 354-3114</p>
-          </div>
-          <a href="https://www.hubbardhouse.org/" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-amber-500 hover:bg-amber-400 text-purple-950 font-bold py-2.5 rounded-xl transition">
-            Donate Directly to Hubbard House ↗
-          </a>
-        </div>
+def load_font(path, size):
+    return ImageFont.truetype(path, size)
 
-        <!-- Peaceful Paths -->
-        <div class="bg-purple-900/60 border border-purple-700/60 p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">North Central FL (Alachua, Bradford, Union)</div>
-            <h3 class="text-xl font-bold text-white mb-2">Peaceful Paths Network</h3>
-            <p class="text-xs text-purple-200 mb-4">Comprehensive shelter, crisis helpline, economic empowerment, and youth programs.</p>
-            <p class="text-xs text-purple-300 font-semibold mb-4">📞 Helpline: (352) 377-8255</p>
-          </div>
-          <a href="https://www.peacefulpaths.org/" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-amber-500 hover:bg-amber-400 text-purple-950 font-bold py-2.5 rounded-xl transition">
-            Donate Directly to Peaceful Paths ↗
-          </a>
-        </div>
+def vertical_gradient(w, h, top, bottom):
+    base = Image.new("RGB", (w, h), top)
+    draw = ImageDraw.Draw(base)
+    for y in range(h):
+        t = y / max(h - 1, 1)
+        r = int(top[0] + (bottom[0] - top[0]) * t)
+        g = int(top[1] + (bottom[1] - top[1]) * t)
+        b = int(top[2] + (bottom[2] - top[2]) * t)
+        draw.line([(0, y), (w, y)], fill=(r, g, b))
+    return base
 
-        <!-- Harbor House -->
-        <div class="bg-purple-900/60 border border-purple-700/60 p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Central FL (Orange County & Orlando)</div>
-            <h3 class="text-xl font-bold text-white mb-2">Harbor House of Central FL</h3>
-            <p class="text-xs text-purple-200 mb-4">Safe shelter, legal advocacy, community education, and emergency housing assistance.</p>
-            <p class="text-xs text-purple-300 font-semibold mb-4">📞 Helpline: (407) 886-2856</p>
-          </div>
-          <a href="https://www.harborhousefl.com/donate-change/" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-amber-500 hover:bg-amber-400 text-purple-950 font-bold py-2.5 rounded-xl transition">
-            Donate Directly to Harbor House ↗
-          </a>
-        </div>
+def wrap_text(draw, text, font, max_width):
+    words = text.split()
+    lines, cur = [], ""
+    for word in words:
+        trial = (cur + " " + word).strip()
+        if draw.textlength(trial, font=font) <= max_width:
+            cur = trial
+        else:
+            if cur:
+                lines.append(cur)
+            cur = word
+    if cur:
+        lines.append(cur)
+    return lines
 
-        <!-- Another Way Inc. -->
-        <div class="bg-purple-900/60 border border-purple-700/60 p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Rural North FL (Suwannee, Columbia, Hamilton)</div>
-            <h3 class="text-xl font-bold text-white mb-2">Another Way, Inc.</h3>
-            <p class="text-xs text-purple-200 mb-4">Emergency shelter and survivor advocacy serving multi-county rural North Florida.</p>
-            <p class="text-xs text-purple-300 font-semibold mb-4">📞 Helpline: 1-866-875-7983</p>
-          </div>
-          <a href="https://anotherwayinc.org/" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-amber-500 hover:bg-amber-400 text-purple-950 font-bold py-2.5 rounded-xl transition">
-            Donate Directly to Another Way ↗
-          </a>
-        </div>
+def footer(draw, page_no, total):
+    f = load_font(F_REG, 24)
+    label = "Women of Florida Shelters"
+    draw.text((MARGIN, H - 56), label, font=f, fill=(255, 255, 255, 160))
+    pg = f"{page_no} / {total}"
+    w = draw.textlength(pg, font=f)
+    draw.text((W - MARGIN - w, H - 56), pg, font=f, fill=(255, 255, 255, 160))
 
-      </div>
-    </div>
-  </section>
+# ---------- Slide builders ----------
 
-  <!-- Legal & Transparency Footer -->
-  <footer class="bg-slate-950 text-slate-400 text-xs py-10 px-4 border-t border-slate-800 mt-auto">
-    <div class="max-w-6xl mx-auto space-y-4 text-center">
-      <p class="text-slate-300 font-medium">
-        Women Of Florida Shelters (WOFS) • Community Resource & Peer Navigation Initiative
-      </p>
-      <p class="max-w-4xl mx-auto leading-relaxed text-slate-400">
-        <strong>Transparency Disclosure:</strong> Women Of Florida Shelters is an independent resource guide and community awareness project. WOFS is not a registered 501(c)(3) entity and does not directly solicit, process, collect, or retain monetary donations. All outbound "Donate" links direct users directly to external, officially registered non-profit organizations and government agencies.
-      </p>
-      <p class="text-slate-500">
-        © 2026 Women Of Florida Shelters. All rights reserved.
-      </p>
-    </div>
-  </footer>
+def slide_title(total_pages):
+    img = vertical_gradient(W, H, BG_TOP, BG_BOTTOM)
+    draw = ImageDraw.Draw(img)
 
-  <!-- Leaflet Map Script -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const map = L.map('resource-map').setView([28.5, -82.5], 7);
+    f_kicker = load_font(F_BOLD, 30)
+    f_title = load_font(F_BOLD, 66)
+    f_sub = load_font(F_REG, 32)
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+    kicker = "RESOURCE GUIDE"
+    draw.text((MARGIN, 140), kicker, font=f_kicker, fill=ACCENT)
 
-      function createIcon(color, symbol) {
-        return L.divIcon({
-          className: 'custom-pin',
-          html: `<div style="background-color: ${color}; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; border: 2px solid white;">${symbol}</div>`,
-          iconSize: [28, 28],
-          iconAnchor: [14, 14]
-        });
-      }
+    title_lines = ["Florida's 42 Certified", "Domestic Violence", "Centers"]
+    y = 200
+    for line in title_lines:
+        draw.text((MARGIN, y), line, font=f_title, fill=TEXT_LIGHT)
+        y += 78
 
-      const locations = [
-        { name: "Florida State University", lat: 30.4419, lng: -84.2985, cat: "college", icon: createIcon('#2563EB', '🎓'), addr: "Tallahassee, FL" },
-        { name: "FSCJ Jacksonville", lat: 30.3322, lng: -81.6557, cat: "college", icon: createIcon('#2563EB', '🎓'), addr: "Jacksonville, FL" },
-        { name: "DCF ACCESS Center", lat: 30.3282, lng: -81.6622, cat: "dcf", icon: createIcon('#059669', '🏛️'), addr: "Jacksonville, FL" },
-        { name: "Refuge House Shelter", lat: 30.4500, lng: -84.2700, cat: "shelter", icon: createIcon('#9333EA', '💜'), addr: "Tallahassee, FL" },
-        { name: "Hubbard House Shelter", lat: 30.3400, lng: -81.6500, cat: "shelter", icon: createIcon('#9333EA', '💜'), addr: "Jacksonville, FL" },
-        { name: "Peaceful Paths Shelter", lat: 29.6600, lng: -82.3500, cat: "shelter", icon: createIcon('#9333EA', '💜'), addr: "Gainesville, FL" },
-        { name: "Suwannee River Economic Council (SREC)", lat: 30.2949, lng: -82.9841, cat: "county", icon: createIcon('#D97706', '🏢'), addr: "Live Oak, FL" }
-      ];
+    sub = "Every certified center in the state, grouped by region — swipe through to find the one that covers your county."
+    sub_lines = wrap_text(draw, sub, f_sub, W - 2 * MARGIN)
+    y += 30
+    for line in sub_lines:
+        draw.text((MARGIN, y), line, font=f_sub, fill=(230, 224, 240))
+        y += 42
 
-      locations.forEach(loc => {
-        L.marker([loc.lat, loc.lng], { icon: loc.icon })
-          .bindPopup(`<strong>${loc.name}</strong><br>${loc.addr}`)
-          .addTo(map);
-      });
-    });
-  </script>
-</body>
-</html>
+    # accent divider
+    draw.rectangle([MARGIN, y + 20, MARGIN + 120, y + 26], fill=ACCENT)
+
+    # bottom hotline callout
+    f_bh = load_font(F_BOLD, 30)
+    draw.text((MARGIN, H - 160), "24/7 Statewide Hotline", font=f_bh, fill=ACCENT)
+    f_bn = load_font(F_BOLD, 46)
+    draw.text((MARGIN, H - 120), STATEWIDE_HOTLINE, font=f_bn, fill=TEXT_LIGHT)
+
+    footer(draw, 1, total_pages)
+    return img
+
+def slide_region(region_name, orgs, page_no, total_pages):
+    img = vertical_gradient(W, H, BG_TOP, BG_BOTTOM)
+    draw = ImageDraw.Draw(img)
+
+    f_kicker = load_font(F_BOLD, 28)
+    f_region = load_font(F_BOLD, 54)
+    f_org = load_font(F_BOLD, 30)
+    f_county = load_font(F_REG, 24)
+
+    draw.text((MARGIN, 70), "REGION", font=f_kicker, fill=ACCENT)
+    draw.text((MARGIN, 106), region_name, font=f_region, fill=TEXT_LIGHT)
+    draw.rectangle([MARGIN, 178, MARGIN + 90, 184], fill=ACCENT)
+
+    card_top = 220
+    card_bottom = H - 100
+    draw.rounded_rectangle([MARGIN - 24, card_top, W - MARGIN + 24, card_bottom],
+                            radius=28, fill=CARD_BG)
+
+    inner_w = (W - MARGIN + 24) - (MARGIN - 24) - 64
+    y = card_top + 40
+    x = MARGIN
+
+    for i, (name, counties) in enumerate(orgs):
+        name_lines = wrap_text(draw, name, f_org, inner_w)
+        for line in name_lines:
+            draw.text((x, y), line, font=f_org, fill=TEXT_DARK)
+            y += 38
+        county_lines = wrap_text(draw, f"Counties: {counties}", f_county, inner_w)
+        for line in county_lines:
+            draw.text((x, y), line, font=f_county, fill=TEXT_MUTED)
+            y += 30
+        y += 22
+        if i < len(orgs) - 1:
+            draw.line([(x, y - 10), (x + inner_w, y - 10)], fill=(230, 226, 236), width=2)
+            y += 6
+
+    footer(draw, page_no, total_pages)
+    return img
+
+def slide_hotline(total_pages):
+    img = Image.new("RGB", (W, H), HOTLINE_BG)
+    draw = ImageDraw.Draw(img)
+
+    f_kicker = load_font(F_BOLD, 30)
+    f_num = load_font(F_BOLD, 84)
+    f_body = load_font(F_REG, 32)
+    f_small = load_font(F_REG, 26)
+
+    draw.text((MARGIN, 180), "NOT SURE WHICH CENTER TO CALL?", font=f_kicker, fill=(255, 236, 214))
+
+    y = 240
+    draw.text((MARGIN, y), "Florida Domestic", font=load_font(F_BOLD, 50), fill=TEXT_LIGHT)
+    y += 62
+    draw.text((MARGIN, y), "Violence Hotline", font=load_font(F_BOLD, 50), fill=TEXT_LIGHT)
+    y += 90
+
+    draw.text((MARGIN, y), STATEWIDE_HOTLINE, font=f_num, fill=(255, 255, 255))
+    y += 120
+
+    body = "Available 24/7. Advocates connect you to the certified center that covers your county and can talk through shelter, safety planning, and next steps."
+    for line in wrap_text(draw, body, f_body, W - 2 * MARGIN):
+        draw.text((MARGIN, y), line, font=f_body, fill=(255, 236, 220))
+        y += 42
+
+    y += 30
+    draw.text((MARGIN, y), "TDD: 1-800-621-4202", font=f_small, fill=(255, 236, 220))
+    y += 34
+    draw.text((MARGIN, y), "fcadv.org/centers — full directory", font=f_small, fill=(255, 236, 220))
+
+    footer(draw, total_pages, total_pages)
+    return img
+
+# ---------- Build ----------
+
+def main():
+    region_items = list(REGIONS.items())
+    total_pages = 1 + len(region_items) + 1  # title + regions + hotline
+
+    page = 1
+    slide_title(total_pages).save(os.path.join(OUT_DIR, f"slide_{page:02d}_title.png"))
+
+    for region_name, orgs in region_items:
+        page += 1
+        safe_name = region_name.lower().replace(" ", "_").replace("&", "and")
+        slide_region(region_name, orgs, page, total_pages).save(
+            os.path.join(OUT_DIR, f"slide_{page:02d}_{safe_name}.png")
+        )
+
+    page += 1
+    slide_hotline(total_pages).save(os.path.join(OUT_DIR, f"slide_{page:02d}_hotline.png"))
+
+    caption = """Florida has 42 certified domestic violence centers, and every single county is covered by one. 📍
+
+Swipe through for the full list, grouped by region, with the counties each center serves. Bookmark this post — you never know when you or someone you love will need it.
+
+Not sure which one covers your county? Call the Florida Domestic Violence Hotline, 24/7: 1-800-500-1119. TDD: 1-800-621-4202.
+
+Full directory: fcadv.org/centers
+
+#WomenOfFloridaShelters #DomesticViolenceAwareness #FloridaResources #DVSupport #SafetyPlanning #YouAreNotAlone"""
+
+    with open(os.path.join(OUT_DIR, "caption.txt"), "w") as f:
+        f.write(caption)
+
+    print(f"Generated {page} slides + caption.txt in {OUT_DIR}")
+
+if __name__ == "__main__":
+    main()
