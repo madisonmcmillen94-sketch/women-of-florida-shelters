@@ -34,6 +34,13 @@
   h1{font-size:clamp(32px,5vw,52px); line-height:1.1; margin:10px 0 16px; color:#fff;}
   .sub{color:#e6e0f0; font-size:18px; line-height:1.5; max-width:640px;}
 
+  .nav-toggle{display:flex; gap:10px; margin-top:20px;}
+  .nav-toggle a{
+    padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none;
+    border:1px solid rgba(255,255,255,.35); color:#fff;
+  }
+  .nav-toggle a.active{background:var(--gold); color:#2b2638; border-color:var(--gold);}
+
   .hotline-banner{
     background:var(--hotline); color:#fff; padding:18px 24px; border-radius:14px;
     max-width:900px; margin:24px auto 0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px;
@@ -76,6 +83,10 @@
   <div class="kicker">Resource &amp; Peer Navigation Hub</div>
   <h1>Women of Florida Shelters</h1>
   <p class="sub">Every FCADV-certified domestic violence center in Florida, grouped by region, so you can find the one that covers your county — fast.</p>
+  <nav class="nav-toggle">
+    <a href="index.html" class="active">List view</a>
+    <a href="map.html">Map view</a>
+  </nav>
 </header>
 
 <div class="hotline-banner">
