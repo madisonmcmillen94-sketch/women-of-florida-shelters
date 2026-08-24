@@ -1,289 +1,221 @@
-"""
-Women of Florida Shelters — Florida DV Centers Carousel
-Generates a set of square (1080x1080) PNG slides listing all 42 FCADV-certified
-Florida domestic violence centers, grouped by region, plus a title slide and a
-closing hotline slide. Also writes a ready-to-paste Facebook caption.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women of Florida Shelters — DV Resource &amp; Peer Navigation Hub</title>
+<meta name="description" content="Directory of all 42 FCADV-certified Florida domestic violence centers, grouped by region, with the statewide 24/7 hotline.">
+<style>
+  :root{
+    --plum-top:#5b4a7a; --plum-bottom:#3a2f5c; --card:#ffffff; --gold:#dea360;
+    --text-dark:#2b2638; --text-muted:#6e687a; --hotline:#c45a5a; --light:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(180deg,var(--plum-top),var(--plum-bottom)); color:var(--text-dark); min-height:100vh;
+  }
+  a{color:inherit;}
+  .skip-link{position:absolute; left:-999px; top:auto;}
+  .skip-link:focus{left:16px; top:16px; background:#fff; color:#000; padding:8px 12px; border-radius:6px; z-index:999;}
 
-Run: python3 generate_carousel.py
-Output: ./output/slide_01_title.png ... slide_NN_hotline.png, caption.txt
-"""
+  /* Quick exit */
+  #quick-exit{
+    position:fixed; top:14px; right:14px; z-index:1000;
+    background:var(--hotline); color:#fff; border:none; border-radius:8px;
+    padding:10px 16px; font-size:15px; font-weight:700; cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,.35);
+  }
+  #quick-exit:hover{background:#a94848;}
+  .exit-note{position:fixed; top:52px; right:14px; z-index:1000; font-size:11px; color:#fff; opacity:.75; max-width:180px; text-align:right;}
 
-from PIL import Image, ImageDraw, ImageFont
-import os
-import textwrap
+  header.hero{padding:90px 24px 40px; max-width:900px; margin:0 auto; text-align:left;}
+  .kicker{color:var(--gold); font-weight:700; letter-spacing:.08em; font-size:14px; text-transform:uppercase;}
+  h1{font-size:clamp(32px,5vw,52px); line-height:1.1; margin:10px 0 16px; color:#fff;}
+  .sub{color:#e6e0f0; font-size:18px; line-height:1.5; max-width:640px;}
 
-# ---------- Config ----------
+  .hotline-banner{
+    background:var(--hotline); color:#fff; padding:18px 24px; border-radius:14px;
+    max-width:900px; margin:24px auto 0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px;
+  }
+  .hotline-banner .label{font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:.05em; opacity:.9;}
+  .hotline-banner .number{font-size:28px; font-weight:800;}
+  .hotline-banner .tdd{font-size:14px; opacity:.9;}
 
-W, H = 1080, 1080
-OUT_DIR = os.path.join(os.path.dirname(__file__), "output")
-os.makedirs(OUT_DIR, exist_ok=True)
+  .search-wrap{max-width:900px; margin:32px auto 0; padding:0 24px;}
+  #search{
+    width:100%; padding:14px 16px; font-size:16px; border-radius:10px; border:none;
+    background:#fff; color:var(--text-dark);
+  }
+  .search-hint{color:#cfc7e2; font-size:13px; margin-top:8px;}
 
-FONT_DIR = "/usr/share/fonts/truetype/dejavu"
-F_BOLD = os.path.join(FONT_DIR, "DejaVuSans-Bold.ttf")
-F_REG = os.path.join(FONT_DIR, "DejaVuSans.ttf")
+  main{max-width:900px; margin:0 auto; padding:24px 24px 80px;}
+  .region{margin-top:36px;}
+  .region h2{color:#fff; font-size:22px; margin-bottom:4px;}
+  .region .divider{width:70px; height:4px; background:var(--gold); border:none; margin:6px 0 16px;}
 
-# Warm, calm palette — approachable but credible for a resource page
-BG_TOP = (91, 74, 122)      # deep plum
-BG_BOTTOM = (58, 47, 92)    # darker plum
-CARD_BG = (255, 255, 255)
-ACCENT = (222, 163, 96)     # warm gold accent
-TEXT_DARK = (43, 38, 56)
-TEXT_MUTED = (110, 104, 122)
-TEXT_LIGHT = (255, 255, 255)
-HOTLINE_BG = (196, 90, 90)  # warm red-orange for the closing hotline slide
+  .center-card{
+    background:var(--card); border-radius:12px; padding:16px 20px; margin-bottom:10px;
+  }
+  .center-card h3{margin:0 0 4px; font-size:17px;}
+  .center-card .counties{color:var(--text-muted); font-size:14px;}
+  .region.hidden, .center-card.hidden{display:none;}
 
-MARGIN = 64
+  footer{max-width:900px; margin:0 auto; padding:20px 24px 60px; color:#e6e0f0; font-size:14px; line-height:1.6;}
+  footer a{color:var(--gold); text-decoration:underline;}
+  .no-results{color:#e6e0f0; font-style:italic; margin-top:20px; display:none;}
+</style>
+</head>
+<body>
 
-# ---------- Data ----------
-# (Organization, counties served)
+<a class="skip-link" href="#main">Skip to directory</a>
+<button id="quick-exit" onclick="quickExit()" aria-label="Leave this site immediately">Leave Site ✕</button>
+<div class="exit-note">Press Esc 3× to exit fast</div>
 
-REGIONS = {
+<header class="hero">
+  <div class="kicker">Resource &amp; Peer Navigation Hub</div>
+  <h1>Women of Florida Shelters</h1>
+  <p class="sub">Every FCADV-certified domestic violence center in Florida, grouped by region, so you can find the one that covers your county — fast.</p>
+</header>
+
+<div class="hotline-banner">
+  <span class="label">24/7 Statewide Hotline</span>
+  <span class="number">1-800-500-1119</span>
+  <span class="tdd">TDD: 1-800-621-4202</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="Search by county, region, or center name…" oninput="filterCenters()" aria-label="Search by county, region, or center name">
+  <div class="search-hint">Example: try "Duval", "Tampa Bay", or "Harbor House".</div>
+</div>
+
+<main id="main">
+  <div id="regions"></div>
+  <p class="no-results" id="no-results">No centers match that search. Try a different county name, or call the statewide hotline above — advocates can point you to the right center.</p>
+</main>
+
+<footer>
+  <p>This page is a directory only — it does not operate any shelter. If you are in immediate danger, call 911. For the official statewide list, visit
+  <a href="https://www.fcadv.org/centers" target="_blank" rel="noopener">fcadv.org/centers</a>.</p>
+  <p>If you're worried someone might see you visited this page: the "Leave Site" button (or pressing Esc three times) takes you to a neutral page immediately. Consider using a private/incognito window and clearing your browser history afterward.</p>
+</footer>
+
+<script>
+  const STATEWIDE_HOTLINE = "1-800-500-1119";
+
+  const REGIONS = {
     "Panhandle": [
-        ("Favor House of Northwest Florida", "Escambia, Santa Rosa"),
-        ("Shelter House, Inc.", "Okaloosa, Walton"),
-        ("Salvation Army of Panama City", "Bay, Calhoun, Gulf, Holmes, Jackson, Washington"),
-        ("Refuge House", "Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla"),
+      ["Favor House of Northwest Florida", "Escambia, Santa Rosa"],
+      ["Shelter House, Inc.", "Okaloosa, Walton"],
+      ["Salvation Army of Panama City", "Bay, Calhoun, Gulf, Holmes, Jackson, Washington"],
+      ["Refuge House", "Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla"]
     ],
     "North Central": [
-        ("Another Way, Inc.", "Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy"),
-        ("Vivid Visions, Inc.", "Suwannee"),
-        ("Peaceful Paths Domestic Abuse Network", "Alachua, Bradford, Union"),
-        ("Ocala Domestic Violence / Sexual Assault Center", "Marion"),
+      ["Another Way, Inc.", "Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy"],
+      ["Vivid Visions, Inc.", "Suwannee"],
+      ["Peaceful Paths Domestic Abuse Network", "Alachua, Bradford, Union"],
+      ["Ocala Domestic Violence / Sexual Assault Center", "Marion"]
     ],
     "Northeast": [
-        ("Hubbard House (Spouse Abuse, Inc.)", "Baker, Duval"),
-        ("Micah's Place, Inc.", "Nassau"),
-        ("Quigley House, Inc.", "Clay"),
-        ("Betty Griffin House (Safety Shelter of St. Johns Co.)", "St. Johns"),
-        ("Lee Conlee House", "Putnam"),
-        ("Beacon Center", "Volusia"),
-        ("Family Life Center (Flagler Ecumenical SSC)", "Flagler"),
+      ["Hubbard House (Spouse Abuse, Inc.)", "Baker, Duval"],
+      ["Micah's Place, Inc.", "Nassau"],
+      ["Quigley House, Inc.", "Clay"],
+      ["Betty Griffin House (Safety Shelter of St. Johns Co.)", "St. Johns"],
+      ["Lee Conlee House", "Putnam"],
+      ["Beacon Center", "Volusia"],
+      ["Family Life Center (Flagler Ecumenical SSC)", "Flagler"]
     ],
     "Central": [
-        ("Harbor House", "Orange"),
-        ("Haven of Lake and Sumter Counties", "Sumter, Lake"),
-        ("Help Now of Osceola, Inc.", "Osceola"),
-        ("Peace River Center DV Shelter", "Hardee, Highlands, Polk"),
+      ["Harbor House", "Orange"],
+      ["Haven of Lake and Sumter Counties", "Sumter, Lake"],
+      ["Help Now of Osceola, Inc.", "Osceola"],
+      ["Peace River Center DV Shelter", "Hardee, Highlands, Polk"]
     ],
     "Tampa Bay": [
-        ("Community Action Stops Abuse", "Pinellas"),
-        ("The Haven of RCS", "Pinellas"),
-        ("DAWN Center of Hernando Co. (Salvare, Inc.)", "Hernando"),
-        ("Sunrise of Pasco", "Pasco"),
-        ("Salvation Army DV Program of West Pasco", "Pasco"),
-        ("The Spring of Tampa Bay, Inc.", "Hillsborough"),
-        ("Citrus County Abuse Shelter Assoc. (CASA)", "Citrus"),
+      ["Community Action Stops Abuse", "Pinellas"],
+      ["The Haven of RCS", "Pinellas"],
+      ["DAWN Center of Hernando Co. (Salvare, Inc.)", "Hernando"],
+      ["Sunrise of Pasco", "Pasco"],
+      ["Salvation Army DV Program of West Pasco", "Pasco"],
+      ["The Spring of Tampa Bay, Inc.", "Hillsborough"],
+      ["Citrus County Abuse Shelter Assoc. (CASA)", "Citrus"]
     ],
     "Southwest": [
-        ("Abuse Counseling and Treatment, Inc. (ACT)", "Glades, Hendry, Lee"),
-        ("Center for Abuse and Rape Emergencies (CARE)", "Charlotte"),
-        ("Safe Place and Rape Crisis Center (SPARCC)", "DeSoto, Sarasota"),
-        ("Shelter for Abused Women & Children (SAWCC)", "Collier"),
+      ["Abuse Counseling and Treatment, Inc. (ACT)", "Glades, Hendry, Lee"],
+      ["Center for Abuse and Rape Emergencies (CARE)", "Charlotte"],
+      ["Safe Place and Rape Crisis Center (SPARCC)", "DeSoto, Sarasota"],
+      ["Shelter for Abused Women & Children (SAWCC)", "Collier"]
     ],
     "Space & Treasure Coast": [
-        ("Salvation Army Brevard County", "Brevard"),
-        ("Serene Harbor", "Brevard"),
-        ("SafeSpace, Inc.", "Indian River, Martin, St. Lucie"),
-        ("Martha's House", "Okeechobee"),
-        ("SafeHouse of Seminole", "Seminole"),
+      ["Salvation Army Brevard County", "Brevard"],
+      ["Serene Harbor", "Brevard"],
+      ["SafeSpace, Inc.", "Indian River, Martin, St. Lucie"],
+      ["Martha's House", "Okeechobee"],
+      ["SafeHouse of Seminole", "Seminole"]
     ],
     "Southeast": [
-        ("Aid to Victims of Domestic Abuse", "Palm Beach"),
-        ("YWCA Harmony House of Palm Beach County", "Palm Beach"),
-        ("Women In Distress of Broward County", "Broward"),
-        ("HOPE Family Services, Inc.", "Manatee"),
+      ["Aid to Victims of Domestic Abuse", "Palm Beach"],
+      ["YWCA Harmony House of Palm Beach County", "Palm Beach"],
+      ["Women In Distress of Broward County", "Broward"],
+      ["HOPE Family Services, Inc.", "Manatee"]
     ],
     "South Florida": [
-        ("Miami-Dade Advocates for Victims, Safespace", "North Miami-Dade"),
-        ("The Lodge (Victim Response, Inc.)", "Miami-Dade"),
-        ("Domestic Abuse Shelter", "Monroe"),
-    ],
-}
+      ["Miami-Dade Advocates for Victims, Safespace", "North Miami-Dade"],
+      ["The Lodge (Victim Response, Inc.)", "Miami-Dade"],
+      ["Domestic Abuse Shelter", "Monroe"]
+    ]
+  };
 
-STATEWIDE_HOTLINE = "1-800-500-1119"
+  function renderRegions(){
+    const container = document.getElementById('regions');
+    let html = '';
+    for (const [region, orgs] of Object.entries(REGIONS)){
+      html += `<section class="region" data-region="${region.toLowerCase()}">
+        <h2>${region}</h2><hr class="divider">`;
+      for (const [name, counties] of orgs){
+        html += `<article class="center-card" data-search="${(region+' '+name+' '+counties).toLowerCase()}">
+          <h3>${name}</h3>
+          <div class="counties">Counties: ${counties}</div>
+        </article>`;
+      }
+      html += `</section>`;
+    }
+    container.innerHTML = html;
+  }
 
-# ---------- Helpers ----------
+  function filterCenters(){
+    const q = document.getElementById('search').value.trim().toLowerCase();
+    const regions = document.querySelectorAll('.region');
+    let anyVisible = false;
+    regions.forEach(region => {
+      const cards = region.querySelectorAll('.center-card');
+      let regionHasMatch = false;
+      cards.forEach(card => {
+        const match = !q || card.dataset.search.includes(q);
+        card.classList.toggle('hidden', !match);
+        if (match) regionHasMatch = true;
+      });
+      region.classList.toggle('hidden', !regionHasMatch);
+      if (regionHasMatch) anyVisible = true;
+    });
+    document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+  }
 
-def load_font(path, size):
-    return ImageFont.truetype(path, size)
+  function quickExit(){
+    window.location.replace('https://www.weather.com');
+  }
 
-def vertical_gradient(w, h, top, bottom):
-    base = Image.new("RGB", (w, h), top)
-    draw = ImageDraw.Draw(base)
-    for y in range(h):
-        t = y / max(h - 1, 1)
-        r = int(top[0] + (bottom[0] - top[0]) * t)
-        g = int(top[1] + (bottom[1] - top[1]) * t)
-        b = int(top[2] + (bottom[2] - top[2]) * t)
-        draw.line([(0, y), (w, y)], fill=(r, g, b))
-    return base
+  let escCount = 0, escTimer = null;
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Escape'){
+      escCount++;
+      clearTimeout(escTimer);
+      escTimer = setTimeout(() => { escCount = 0; }, 1200);
+      if (escCount >= 3) quickExit();
+    }
+  });
 
-def wrap_text(draw, text, font, max_width):
-    words = text.split()
-    lines, cur = [], ""
-    for word in words:
-        trial = (cur + " " + word).strip()
-        if draw.textlength(trial, font=font) <= max_width:
-            cur = trial
-        else:
-            if cur:
-                lines.append(cur)
-            cur = word
-    if cur:
-        lines.append(cur)
-    return lines
-
-def footer(draw, page_no, total):
-    f = load_font(F_REG, 24)
-    label = "Women of Florida Shelters"
-    draw.text((MARGIN, H - 56), label, font=f, fill=(255, 255, 255, 160))
-    pg = f"{page_no} / {total}"
-    w = draw.textlength(pg, font=f)
-    draw.text((W - MARGIN - w, H - 56), pg, font=f, fill=(255, 255, 255, 160))
-
-# ---------- Slide builders ----------
-
-def slide_title(total_pages):
-    img = vertical_gradient(W, H, BG_TOP, BG_BOTTOM)
-    draw = ImageDraw.Draw(img)
-
-    f_kicker = load_font(F_BOLD, 30)
-    f_title = load_font(F_BOLD, 66)
-    f_sub = load_font(F_REG, 32)
-
-    kicker = "RESOURCE GUIDE"
-    draw.text((MARGIN, 140), kicker, font=f_kicker, fill=ACCENT)
-
-    title_lines = ["Florida's 42 Certified", "Domestic Violence", "Centers"]
-    y = 200
-    for line in title_lines:
-        draw.text((MARGIN, y), line, font=f_title, fill=TEXT_LIGHT)
-        y += 78
-
-    sub = "Every certified center in the state, grouped by region — swipe through to find the one that covers your county."
-    sub_lines = wrap_text(draw, sub, f_sub, W - 2 * MARGIN)
-    y += 30
-    for line in sub_lines:
-        draw.text((MARGIN, y), line, font=f_sub, fill=(230, 224, 240))
-        y += 42
-
-    # accent divider
-    draw.rectangle([MARGIN, y + 20, MARGIN + 120, y + 26], fill=ACCENT)
-
-    # bottom hotline callout
-    f_bh = load_font(F_BOLD, 30)
-    draw.text((MARGIN, H - 160), "24/7 Statewide Hotline", font=f_bh, fill=ACCENT)
-    f_bn = load_font(F_BOLD, 46)
-    draw.text((MARGIN, H - 120), STATEWIDE_HOTLINE, font=f_bn, fill=TEXT_LIGHT)
-
-    footer(draw, 1, total_pages)
-    return img
-
-def slide_region(region_name, orgs, page_no, total_pages):
-    img = vertical_gradient(W, H, BG_TOP, BG_BOTTOM)
-    draw = ImageDraw.Draw(img)
-
-    f_kicker = load_font(F_BOLD, 28)
-    f_region = load_font(F_BOLD, 54)
-    f_org = load_font(F_BOLD, 30)
-    f_county = load_font(F_REG, 24)
-
-    draw.text((MARGIN, 70), "REGION", font=f_kicker, fill=ACCENT)
-    draw.text((MARGIN, 106), region_name, font=f_region, fill=TEXT_LIGHT)
-    draw.rectangle([MARGIN, 178, MARGIN + 90, 184], fill=ACCENT)
-
-    card_top = 220
-    card_bottom = H - 100
-    draw.rounded_rectangle([MARGIN - 24, card_top, W - MARGIN + 24, card_bottom],
-                            radius=28, fill=CARD_BG)
-
-    inner_w = (W - MARGIN + 24) - (MARGIN - 24) - 64
-    y = card_top + 40
-    x = MARGIN
-
-    for i, (name, counties) in enumerate(orgs):
-        name_lines = wrap_text(draw, name, f_org, inner_w)
-        for line in name_lines:
-            draw.text((x, y), line, font=f_org, fill=TEXT_DARK)
-            y += 38
-        county_lines = wrap_text(draw, f"Counties: {counties}", f_county, inner_w)
-        for line in county_lines:
-            draw.text((x, y), line, font=f_county, fill=TEXT_MUTED)
-            y += 30
-        y += 22
-        if i < len(orgs) - 1:
-            draw.line([(x, y - 10), (x + inner_w, y - 10)], fill=(230, 226, 236), width=2)
-            y += 6
-
-    footer(draw, page_no, total_pages)
-    return img
-
-def slide_hotline(total_pages):
-    img = Image.new("RGB", (W, H), HOTLINE_BG)
-    draw = ImageDraw.Draw(img)
-
-    f_kicker = load_font(F_BOLD, 30)
-    f_num = load_font(F_BOLD, 84)
-    f_body = load_font(F_REG, 32)
-    f_small = load_font(F_REG, 26)
-
-    draw.text((MARGIN, 180), "NOT SURE WHICH CENTER TO CALL?", font=f_kicker, fill=(255, 236, 214))
-
-    y = 240
-    draw.text((MARGIN, y), "Florida Domestic", font=load_font(F_BOLD, 50), fill=TEXT_LIGHT)
-    y += 62
-    draw.text((MARGIN, y), "Violence Hotline", font=load_font(F_BOLD, 50), fill=TEXT_LIGHT)
-    y += 90
-
-    draw.text((MARGIN, y), STATEWIDE_HOTLINE, font=f_num, fill=(255, 255, 255))
-    y += 120
-
-    body = "Available 24/7. Advocates connect you to the certified center that covers your county and can talk through shelter, safety planning, and next steps."
-    for line in wrap_text(draw, body, f_body, W - 2 * MARGIN):
-        draw.text((MARGIN, y), line, font=f_body, fill=(255, 236, 220))
-        y += 42
-
-    y += 30
-    draw.text((MARGIN, y), "TDD: 1-800-621-4202", font=f_small, fill=(255, 236, 220))
-    y += 34
-    draw.text((MARGIN, y), "fcadv.org/centers — full directory", font=f_small, fill=(255, 236, 220))
-
-    footer(draw, total_pages, total_pages)
-    return img
-
-# ---------- Build ----------
-
-def main():
-    region_items = list(REGIONS.items())
-    total_pages = 1 + len(region_items) + 1  # title + regions + hotline
-
-    page = 1
-    slide_title(total_pages).save(os.path.join(OUT_DIR, f"slide_{page:02d}_title.png"))
-
-    for region_name, orgs in region_items:
-        page += 1
-        safe_name = region_name.lower().replace(" ", "_").replace("&", "and")
-        slide_region(region_name, orgs, page, total_pages).save(
-            os.path.join(OUT_DIR, f"slide_{page:02d}_{safe_name}.png")
-        )
-
-    page += 1
-    slide_hotline(total_pages).save(os.path.join(OUT_DIR, f"slide_{page:02d}_hotline.png"))
-
-    caption = """Florida has 42 certified domestic violence centers, and every single county is covered by one. 📍
-
-Swipe through for the full list, grouped by region, with the counties each center serves. Bookmark this post — you never know when you or someone you love will need it.
-
-Not sure which one covers your county? Call the Florida Domestic Violence Hotline, 24/7: 1-800-500-1119. TDD: 1-800-621-4202.
-
-Full directory: fcadv.org/centers
-
-#WomenOfFloridaShelters #DomesticViolenceAwareness #FloridaResources #DVSupport #SafetyPlanning #YouAreNotAlone"""
-
-    with open(os.path.join(OUT_DIR, "caption.txt"), "w") as f:
-        f.write(caption)
-
-    print(f"Generated {page} slides + caption.txt in {OUT_DIR}")
-
-if __name__ == "__main__":
-    main()
+  renderRegions();
+</script>
+</body>
+</html>
