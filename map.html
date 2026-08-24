@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map — Women of Florida Shelters</title>
+<meta name="description" content="Map of Florida's 42 FCADV-certified domestic violence centers, shown by county service area.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+  :root{
+    --plum-top:#5b4a7a; --plum-bottom:#3a2f5c; --card:#ffffff; --gold:#dea360;
+    --text-dark:#2b2638; --text-muted:#6e687a; --hotline:#c45a5a; --light:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(180deg,var(--plum-top),var(--plum-bottom)); color:var(--text-dark); min-height:100vh;
+  }
+  a{color:inherit;}
+
+  #quick-exit{
+    position:fixed; top:14px; right:14px; z-index:1200;
+    background:var(--hotline); color:#fff; border:none; border-radius:8px;
+    padding:10px 16px; font-size:15px; font-weight:700; cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,.35);
+  }
+  #quick-exit:hover{background:#a94848;}
+  .exit-note{position:fixed; top:52px; right:14px; z-index:1200; font-size:11px; color:#fff; opacity:.75; max-width:180px; text-align:right;}
+
+  header.hero{padding:70px 24px 24px; max-width:1100px; margin:0 auto;}
+  .kicker{color:var(--gold); font-weight:700; letter-spacing:.08em; font-size:14px; text-transform:uppercase;}
+  h1{font-size:clamp(28px,4.5vw,44px); line-height:1.1; margin:10px 0 12px; color:#fff;}
+  .sub{color:#e6e0f0; font-size:16px; line-height:1.5; max-width:720px;}
+
+  .nav-toggle{display:flex; gap:10px; margin-top:18px;}
+  .nav-toggle a{
+    padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none;
+    border:1px solid rgba(255,255,255,.35); color:#fff;
+  }
+  .nav-toggle a.active{background:var(--gold); color:#2b2638; border-color:var(--gold);}
+
+  .hotline-banner{
+    background:var(--hotline); color:#fff; padding:16px 24px; border-radius:14px;
+    max-width:1100px; margin:20px auto 0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px;
+  }
+  .hotline-banner .label{font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.05em; opacity:.9;}
+  .hotline-banner .number{font-size:24px; font-weight:800;}
+  .hotline-banner .tdd{font-size:13px; opacity:.9;}
+
+  .map-note{
+    max-width:1100px; margin:16px auto 0; padding:0 24px; color:#cfc7e2; font-size:13px; line-height:1.5;
+  }
+
+  .search-wrap{max-width:1100px; margin:16px auto 0; padding:0 24px;}
+  #search{
+    width:100%; padding:12px 16px; font-size:15px; border-radius:10px; border:none;
+    background:#fff; color:var(--text-dark);
+  }
+
+  #map-container{max-width:1100px; margin:16px auto 60px; padding:0 24px;}
+  #map{height:70vh; min-height:420px; border-radius:14px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.35);}
+
+  .leaflet-popup-content-wrapper{border-radius:10px;}
+  .popup-name{font-weight:700; font-size:15px; margin-bottom:4px; color:var(--text-dark);}
+  .popup-region{color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;}
+  .popup-counties{font-size:13px; color:var(--text-muted); margin-bottom:8px;}
+  .popup-row{font-size:13px; margin-bottom:3px;}
+  .popup-row a{color:#6a4fa0; text-decoration:underline;}
+
+  footer{max-width:1100px; margin:0 auto; padding:0 24px 60px; color:#e6e0f0; font-size:14px; line-height:1.6;}
+  footer a{color:var(--gold); text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<button id="quick-exit" onclick="quickExit()" aria-label="Leave this site immediately">Leave Site ✕</button>
+<div class="exit-note">Press Esc 3× to exit fast</div>
+
+<header class="hero">
+  <div class="kicker">Resource &amp; Peer Navigation Hub</div>
+  <h1>Find a Center Near You</h1>
+  <p class="sub">All 42 FCADV-certified Florida domestic violence centers, mapped by the county area they serve.</p>
+  <nav class="nav-toggle">
+    <a href="index.html">List view</a>
+    <a href="map.html" class="active">Map view</a>
+  </nav>
+</header>
+
+<div class="hotline-banner">
+  <span class="label">24/7 Statewide Hotline</span>
+  <span class="number">1-800-500-1119</span>
+  <span class="tdd">TDD: 1-800-621-4202</span>
+</div>
+
+<p class="map-note">Pins mark the approximate center of the county (or counties) each organization serves — not the physical shelter address. Most shelter locations are kept confidential to protect residents' safety; call the number listed for directions or intake.</p>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="Search by county, region, or center name…" oninput="filterMarkers()" aria-label="Search by county, region, or center name">
+</div>
+
+<div id="map-container">
+  <div id="map"></div>
+</div>
+
+<footer>
+  <p>This page is a directory only — it does not operate any shelter. If you are in immediate danger, call 911. For the official statewide list, visit
+  <a href="https://www.fcadv.org/centers" target="_blank" rel="noopener">fcadv.org/centers</a>.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  const CENTERS = [{"name": "Favor House of Northwest Florida", "region": "Panhandle", "counties": "Escambia, Santa Rosa", "phone": "(850) 434-1177", "website": "https://favorhouse.org", "lat": 30.5215, "lng": -87.1254}, {"name": "Shelter House, Inc.", "region": "Panhandle", "counties": "Okaloosa, Walton", "phone": "(850) 243-1201", "website": "https://shelterhousenwfl.org", "lat": 30.7415, "lng": -86.343}, {"name": "Salvation Army of Panama City", "region": "Panhandle", "counties": "Bay, Calhoun, Gulf, Holmes, Jackson, Washington", "phone": "(850) 769-7989", "website": "https://salvationarmypanamacity.org", "lat": 30.4601, "lng": -85.4096}, {"name": "Refuge House", "region": "Panhandle", "counties": "Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla", "phone": "(850) 922-6062", "website": "https://refugehouse.com", "lat": 30.3102, "lng": -84.2578}, {"name": "Another Way, Inc.", "region": "North Central", "counties": "Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy", "phone": "(386) 719-2700", "website": "https://anotherwayinc.net", "lat": 29.9074, "lng": -82.8903}, {"name": "Vivid Visions, Inc.", "region": "North Central", "counties": "Suwannee", "phone": "(386) 364-5957", "website": "https://vividvisionsinc.org", "lat": 30.2949, "lng": -82.9848}, {"name": "Peaceful Paths Domestic Abuse Network", "region": "North Central", "counties": "Alachua, Bradford, Union", "phone": "(352) 377-5690", "website": "https://peacefulpaths.org", "lat": 29.8749, "lng": -82.256}, {"name": "Ocala Domestic Violence / Sexual Assault Center", "region": "North Central", "counties": "Marion", "phone": "(352) 351-4009", "website": null, "lat": 29.1872, "lng": -82.1401}, {"name": "Hubbard House (Spouse Abuse, Inc.)", "region": "Northeast", "counties": "Baker, Duval", "phone": "(904) 354-0076", "website": null, "lat": 30.3075, "lng": -81.8911}, {"name": "Micah's Place, Inc.", "region": "Northeast", "counties": "Nassau", "phone": "(904) 491-6364", "website": "https://micahsplace.org", "lat": 30.6697, "lng": -81.4626}, {"name": "Quigley House, Inc.", "region": "Northeast", "counties": "Clay", "phone": "(904) 284-0340", "website": "https://quigleyhouse.org", "lat": 29.993, "lng": -81.6787}, {"name": "Betty Griffin House (Safety Shelter of St. Johns Co.)", "region": "Northeast", "counties": "St. Johns", "phone": "(904) 808-8544", "website": null, "lat": 29.9012, "lng": -81.3124}, {"name": "Lee Conlee House", "region": "Northeast", "counties": "Putnam", "phone": "(386) 325-4447", "website": "https://leeconleehouse.org", "lat": 29.65, "lng": -81.6376}, {"name": "Beacon Center", "region": "Northeast", "counties": "Volusia", "phone": "(386) 257-2297", "website": null, "lat": 29.0283, "lng": -81.3031}, {"name": "Family Life Center (Flagler Ecumenical SSC)", "region": "Northeast", "counties": "Flagler", "phone": "(386) 437-7747", "website": "https://familylifecenterflagler.org", "lat": 29.4661, "lng": -81.2567}, {"name": "Harbor House", "region": "Central", "counties": "Orange", "phone": "(407) 886-2244", "website": "https://harborhousefl.com", "lat": 28.5383, "lng": -81.3792}, {"name": "Haven of Lake and Sumter Counties", "region": "Central", "counties": "Sumter, Lake", "phone": "(352) 315-0591", "website": "https://havenlakesumter.org", "lat": 28.7338, "lng": -81.9189}, {"name": "Help Now of Osceola, Inc.", "region": "Central", "counties": "Osceola", "phone": "(407) 847-3260", "website": null, "lat": 28.2919, "lng": -81.4076}, {"name": "Peace River Center DV Shelter", "region": "Central", "counties": "Hardee, Highlands, Polk", "phone": "(863) 413-2708", "website": "https://peacerivercenter.org", "lat": 27.6423, "lng": -81.6986}, {"name": "Community Action Stops Abuse", "region": "Tampa Bay", "counties": "Pinellas", "phone": "(727) 895-4912", "website": "https://casa-stpete.org", "lat": 28.0059, "lng": -82.8401}, {"name": "The Haven of RCS", "region": "Tampa Bay", "counties": "Pinellas", "phone": "(727) 584-3528", "website": "https://rcspinellas.org", "lat": 27.9259, "lng": -82.7601}, {"name": "DAWN Center of Hernando Co. (Salvare, Inc.)", "region": "Tampa Bay", "counties": "Hernando", "phone": "(352) 684-7191", "website": "https://thedawncenter.com", "lat": 28.5544, "lng": -82.3879}, {"name": "Sunrise of Pasco", "region": "Tampa Bay", "counties": "Pasco", "phone": "(352) 521-3358", "website": "https://sunrisepasco.org", "lat": 28.3992, "lng": -82.2362}, {"name": "Salvation Army DV Program of West Pasco", "region": "Tampa Bay", "counties": "Pasco", "phone": "(727) 856-6498", "website": "https://salvationarmywestpasco.org", "lat": 28.3192, "lng": -82.1562}, {"name": "The Spring of Tampa Bay, Inc.", "region": "Tampa Bay", "counties": "Hillsborough", "phone": "(813) 247-5433", "website": "https://thespring.org", "lat": 27.9506, "lng": -82.4572}, {"name": "Citrus County Abuse Shelter Assoc. (CASA)", "region": "Tampa Bay", "counties": "Citrus", "phone": "(352) 344-8112", "website": "https://casafl.org", "lat": 28.8375, "lng": -82.3301}, {"name": "Abuse Counseling and Treatment, Inc. (ACT)", "region": "Southwest", "counties": "Glades, Hendry, Lee", "phone": "(239) 939-2553", "website": "https://actabuse.com", "lat": 26.7457, "lng": -81.4667}, {"name": "Center for Abuse and Rape Emergencies (CARE)", "region": "Southwest", "counties": "Charlotte", "phone": "(941) 639-5499", "website": "https://carefl.org", "lat": 26.9298, "lng": -82.0454}, {"name": "Safe Place and Rape Crisis Center (SPARCC)", "region": "Southwest", "counties": "DeSoto, Sarasota", "phone": "(941) 365-0208", "website": "https://sparcc.net", "lat": 27.2761, "lng": -82.195}, {"name": "Shelter for Abused Women & Children (SAWCC)", "region": "Southwest", "counties": "Collier", "phone": "(239) 775-3862", "website": "https://naplesshelter.org", "lat": 26.142, "lng": -81.7948}, {"name": "Salvation Army Brevard County", "region": "Space & Treasure Coast", "counties": "Brevard", "phone": "(321) 631-2766", "website": "https://salvationarmyncbrevard.org", "lat": 28.6522, "lng": -80.8476}, {"name": "Serene Harbor", "region": "Space & Treasure Coast", "counties": "Brevard", "phone": "(321) 726-8282", "website": "https://sereneharbor.org", "lat": 28.5722, "lng": -80.7676}, {"name": "SafeSpace, Inc.", "region": "Space & Treasure Coast", "counties": "Indian River, Martin, St. Lucie", "phone": "(772) 223-2399", "website": "https://safespacefl.org", "lat": 27.4275, "lng": -80.3252}, {"name": "Martha's House", "region": "Space & Treasure Coast", "counties": "Okeechobee", "phone": "(863) 763-2893", "website": "https://marthashouse.org", "lat": 27.2414, "lng": -80.8306}, {"name": "SafeHouse of Seminole", "region": "Space & Treasure Coast", "counties": "Seminole", "phone": "(407) 302-5220", "website": "https://safehousefl.com", "lat": 28.8, "lng": -81.2731}, {"name": "Aid to Victims of Domestic Abuse", "region": "Southeast", "counties": "Palm Beach", "phone": "(561) 265-3797", "website": null, "lat": 26.7553, "lng": -80.0934}, {"name": "YWCA Harmony House of Palm Beach County", "region": "Southeast", "counties": "Palm Beach", "phone": "(561) 640-0050", "website": "https://ywcapbc.org", "lat": 26.6753, "lng": -80.0134}, {"name": "Women In Distress of Broward County", "region": "Southeast", "counties": "Broward", "phone": "(954) 760-9800", "website": null, "lat": 26.1224, "lng": -80.1373}, {"name": "HOPE Family Services, Inc.", "region": "Southeast", "counties": "Manatee", "phone": "(941) 747-8499", "website": "https://hopefamilyservice.org", "lat": 27.4989, "lng": -82.5748}, {"name": "Miami-Dade Advocates for Victims, Safespace", "region": "South Florida", "counties": "North Miami-Dade", "phone": "(305) 285-5904", "website": "https://safespacefoundation.org", "lat": 25.8517, "lng": -80.1918}, {"name": "The Lodge (Victim Response, Inc.)", "region": "South Florida", "counties": "Miami-Dade", "phone": "(305) 667-2456", "website": "https://thelodgemiami.org", "lat": 25.7317, "lng": -80.1918}, {"name": "Domestic Abuse Shelter", "region": "South Florida", "counties": "Monroe", "phone": "(305) 743-5452", "website": null, "lat": 24.5551, "lng": -81.78}];
+
+  const map = L.map('map', { scrollWheelZoom: true }).setView([27.9, -81.8], 7);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  const markers = [];
+
+  CENTERS.forEach(c => {
+    const marker = L.circleMarker([c.lat, c.lng], {
+      radius: 8,
+      color: '#dea360',
+      weight: 2,
+      fillColor: '#5b4a7a',
+      fillOpacity: 0.9
+    });
+
+    let html = `<div class="popup-name">${c.name}</div>`;
+    html += `<div class="popup-region">${c.region}</div>`;
+    html += `<div class="popup-counties">Counties: ${c.counties}</div>`;
+    html += `<div class="popup-row">📞 <a href="tel:${c.phone.replace(/[^0-9+]/g,'')}">${c.phone}</a></div>`;
+    if (c.website) {
+      html += `<div class="popup-row">🔗 <a href="${c.website}" target="_blank" rel="noopener">Website</a></div>`;
+    }
+
+    marker.bindPopup(html);
+    marker.addTo(map);
+    marker.searchText = (c.name + ' ' + c.region + ' ' + c.counties).toLowerCase();
+    markers.push(marker);
+  });
+
+  function filterMarkers(){
+    const q = document.getElementById('search').value.trim().toLowerCase();
+    markers.forEach(m => {
+      const match = !q || m.searchText.includes(q);
+      if (match && !map.hasLayer(m)) m.addTo(map);
+      if (!match && map.hasLayer(m)) map.removeLayer(m);
+    });
+  }
+
+  function quickExit(){
+    window.location.replace('https://www.weather.com');
+  }
+
+  let escCount = 0, escTimer = null;
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Escape'){
+      escCount++;
+      clearTimeout(escTimer);
+      escTimer = setTimeout(() => { escCount = 0; }, 1200);
+      if (escCount >= 3) quickExit();
+    }
+  });
+</script>
+</body>
+</html>
