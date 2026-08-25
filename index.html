@@ -89,7 +89,7 @@ footer a{color:var(--gold); text-decoration:underline;}
 
 .social-row{display:flex; align-items:center; gap:8px; margin-top:6px;}
 .social-row svg{flex-shrink:0;}
-</style>
+.slider{max-width:900px;margin:28px auto 0;padding:0 24px;}.slider-track{position:relative;background:var(--card);border-radius:16px;padding:20px 50px;box-shadow:0 4px 18px rgba(0,0,0,.18);min-height:100px;display:flex;align-items:center;gap:16px;}.slider-badge{flex-shrink:0;background:var(--gold);color:#2b2638;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:6px 10px;border-radius:8px;white-space:nowrap;align-self:flex-start;margin-top:2px;}.slide{display:none;}.slide.active{display:block;}.slide h3{margin:0 0 4px;font-size:16.5px;color:var(--text-dark);}.slide p{margin:0;font-size:13.5px;color:var(--text-muted);line-height:1.5;}.slide a.slide-link{display:inline-block;margin-top:6px;font-size:13px;font-weight:700;color:#6a4fa0;text-decoration:underline;}.slider-nav{display:flex;justify-content:center;gap:8px;margin-top:10px;}.slider-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);border:none;cursor:pointer;padding:0;}.slider-dot.active{background:var(--gold);}.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);background:#f3f0f8;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;color:var(--text-dark);line-height:1;}.slider-arrow.prev{left:10px;}.slider-arrow.next{right:10px;}</style>
 </head>
 <body>
 
@@ -104,7 +104,7 @@ footer a{color:var(--gold); text-decoration:underline;}
 <p class="sub">Every FCADV-certified domestic violence center in Florida, grouped by region, so you can find the one that covers your county — fast.</p>
 <nav class="nav-toggle">
 <a href="index.html" class="active">List view</a>
-<a href="map.html">Map view</a>
+<a href="map.html">Map view</a><a href="resources.html">Resources</a>
 </nav>
 </header>
 
@@ -114,7 +114,7 @@ footer a{color:var(--gold); text-decoration:underline;}
 <span class="tdd">TDD: 1-800-621-4202</span>
 </div>
 
-<div class="search-wrap">
+<div class="slider" aria-roledescription="carousel" aria-label="Featured resources"><div class="slider-track"><button class="slider-arrow prev" onclick="sliderMove(-1)" aria-label="Previous slide">‹</button><div class="slider-badge">Did you know?</div><div class="slide active" data-index="0"><h3>You may be eligible for Crime Victim Compensation</h3><p>Covers medical bills, counseling, lost wages, and relocation costs for survivors of domestic violence. Call 1-800-226-6667.</p><a class="slide-link" href="resources.html#financial-housing">Learn more →</a></div><div class="slide" data-index="1"><h3>A protective order is free — no lawyer required</h3><p>Florida's Injunction for Protection Against Domestic Violence can be filed at your county courthouse at no cost.</p><a class="slide-link" href="resources.html#legal-immigration">Learn more →</a></div><div class="slide" data-index="2"><h3>Texting can be safer than calling</h3><p>Text START to 88788 to reach the National Domestic Violence Hotline if your phone might be monitored.</p><a class="slide-link" href="resources.html#more-help">Learn more →</a></div><div class="slide" data-index="3"><h3>Your kids can enroll in school immediately</h3><p>Federal law lets children displaced by domestic violence enroll in a new school right away — no records required up front.</p><a class="slide-link" href="resources.html#parents-children">Learn more →</a></div><div class="slide" data-index="4"><h3>Have a safety plan ready</h3><p>A go-bag, a safe contact, and a plan for digital safety can make leaving faster if you ever need to.</p><a class="slide-link" href="resources.html#safety-planning">Learn more →</a></div><button class="slider-arrow next" onclick="sliderMove(1)" aria-label="Next slide">›</button></div><div class="slider-nav" role="tablist" aria-label="Slide selector"><button class="slider-dot active" onclick="sliderGoTo(0)" aria-label="Slide 1"></button><button class="slider-dot" onclick="sliderGoTo(1)" aria-label="Slide 2"></button><button class="slider-dot" onclick="sliderGoTo(2)" aria-label="Slide 3"></button><button class="slider-dot" onclick="sliderGoTo(3)" aria-label="Slide 4"></button><button class="slider-dot" onclick="sliderGoTo(4)" aria-label="Slide 5"></button></div></div><div class="search-wrap">
 <input id="search" type="text" placeholder="Search by county, region, or center name…" oninput="filterCenters()" aria-label="Search by county, region, or center name">
 <div class="search-hint">Example: try "Duval", "Tampa Bay", or "Harbor House".</div>
 </div>
@@ -250,7 +250,7 @@ if (escCount >= 3) quickExit();
 }
 });
 
-renderRegions();
+let sliderIndex=0;const sliderSlides=document.querySelectorAll('.slide');const sliderDots=document.querySelectorAll('.slider-dot');let sliderTimer=null;function sliderShow(i){sliderSlides.forEach(function(s){s.classList.remove('active');});sliderDots.forEach(function(d){d.classList.remove('active');});sliderIndex=(i+sliderSlides.length)%sliderSlides.length;sliderSlides[sliderIndex].classList.add('active');sliderDots[sliderIndex].classList.add('active');}function sliderMove(dir){sliderShow(sliderIndex+dir);}function sliderGoTo(i){sliderShow(i);}function sliderAuto(){sliderTimer=setInterval(function(){sliderMove(1);},7000);}const sliderEl=document.querySelector('.slider');if(sliderEl){sliderAuto();sliderEl.addEventListener('mouseenter',function(){clearInterval(sliderTimer);});sliderEl.addEventListener('mouseleave',sliderAuto);sliderEl.addEventListener('focusin',function(){clearInterval(sliderTimer);});sliderEl.addEventListener('focusout',sliderAuto);}renderRegions();
 </script>
 </body>
 </html>
