@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Site Analytics — Internal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  This page is intentionally NOT linked from the site's nav, sitemap,
+  or footer — that's what makes it "ghost." The two lines below make
+  sure search engines don't index it either, so it won't turn up in
+  Google results or site search.
+-->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<style>
+  :root{
+    /* matched to the live site's palette (index.html / map.html / directory.html) */
+    --plum-top:#5b4a7a; --plum-bottom:#3a2f5c;
+    --gold:#dea360; --hotline:#c45a5a;
+    --text-dark:#2b2638; --text-muted:#6e687a;
+    --paper: #faf8f5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--text-dark);
+  }
+  header{
+    background:linear-gradient(180deg,var(--plum-top),var(--plum-bottom));
+    color:#fff;
+    padding:28px 32px;
+  }
+  header .logo-mark{
+    display:block;
+    height:48px;
+    width:auto;
+    margin-bottom:14px;
+  }
+  header .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:12px;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  header h1{
+    margin:0;
+    font-size:26px;
+  }
+  header p{
+    margin:8px 0 0;
+    color:#e3dcee;
+    font-size:14px;
+  }
+  .badge{
+    display:inline-block;
+    margin-top:14px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.35);
+    color:#fff;
+    font-size:12px;
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  main{
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px 32px 60px;
+  }
+  .frame-wrap{
+    background:#fff;
+    border:1px solid #e6e1ec;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 4px 18px rgba(69,58,90,.08);
+  }
+  .frame-wrap iframe{
+    width:100%;
+    height:900px;
+    border:0;
+    display:block;
+  }
+  .placeholder{
+    padding:60px 32px;
+    text-align:center;
+    color:#6b6178;
+  }
+  .placeholder code{
+    background:#f1edf6;
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:13px;
+  }
+  footer{
+    max-width:1100px;
+    margin:24px auto 0;
+    padding:0 32px;
+    color:#8b8296;
+    font-size:12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo-mark" src="assets/logo.png" alt="Women of Florida Shelters logo">
+  <div class="eyebrow">Internal — Not for public distribution</div>
+  <h1>Site Analytics</h1>
+  <p>Women of Florida Shelters — aggregate visit stats from Google Analytics / Looker Studio.</p>
+  <span class="badge">Viewable only by accounts this report is shared with</span>
+</header>
+
+<main>
+  <div class="frame-wrap">
+    <!--
+      STEP 1: In Looker Studio (lookerstudio.google.com), build a report
+      connected to this site's GA4 property.
+      STEP 2: Share it with the two approved viewer accounts specifically
+      (not "anyone with the link") — see internal team notes for the
+      email addresses.
+      Because it's shared that way, Google itself enforces who can see
+      the data — someone who stumbles onto this URL without being
+      signed into one of those two accounts sees nothing.
+      STEP 3: File → Embed report in Looker Studio, copy the embed URL,
+      and replace the src below with it, then delete the .placeholder
+      div and uncomment the iframe.
+    -->
+    <div class="placeholder">
+      Paste your Looker Studio embed URL into this file to activate the dashboard.<br>
+      Look for <code>&lt;!-- IFRAME_GOES_HERE --&gt;</code> below.
+    </div>
+    <!-- IFRAME_GOES_HERE
+    <iframe src="https://lookerstudio.google.com/embed/reporting/REPLACE-WITH-YOUR-REPORT-ID/page/REPLACE"
+            allowfullscreen></iframe>
+    -->
+  </div>
+</main>
+
+<footer>
+  Not linked anywhere on the public site. Keep this URL out of chat messages, texts, or anywhere it could be forwarded — access is meant to travel through the Looker Studio share list, not the link itself.
+</footer>
+
+</body>
+</html>
