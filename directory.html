@@ -81,6 +81,8 @@ background:var(--card); border-radius:12px; padding:16px 20px; margin-bottom:10p
 }
 .center-card h3{margin:0 0 4px; font-size:17px;}
 .center-card .counties{color:var(--text-muted); font-size:14px;}
+.center-card .contact{color:var(--text-muted); font-size:14px; margin-top:6px;}
+.center-card .contact a{color:#6a4fa0; text-decoration:underline; margin-right:14px;}
 .region.hidden, .center-card.hidden{display:none;}
 
 footer{max-width:900px; margin:0 auto; padding:20px 24px 60px; color:#e6e0f0; font-size:14px; line-height:1.6;}
@@ -142,64 +144,64 @@ const STATEWIDE_HOTLINE = "1-800-500-1119";
 
 const REGIONS = {
 "Panhandle": [
-["Favor House of Northwest Florida", "Escambia, Santa Rosa"],
-["Shelter House, Inc.", "Okaloosa, Walton"],
-["Salvation Army of Panama City", "Bay, Calhoun, Gulf, Holmes, Jackson, Washington"],
-["Refuge House", "Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla"]
+["Favor House of Northwest Florida", "Escambia, Santa Rosa", "(850) 434-1177", "https://favorhouse.org"],
+["Shelter House, Inc.", "Okaloosa, Walton", "(850) 243-1201", "https://shelterhousenwfl.org"],
+["Salvation Army of Panama City", "Bay, Calhoun, Gulf, Holmes, Jackson, Washington", "(850) 769-7989", "https://salvationarmypanamacity.org"],
+["Refuge House", "Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla", "(850) 922-6062", "https://refugehouse.com"]
 ],
 "North Central": [
-["Another Way, Inc.", "Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy"],
-["Vivid Visions, Inc.", "Suwannee"],
-["Peaceful Paths Domestic Abuse Network", "Alachua, Bradford, Union"],
-["Ocala Domestic Violence / Sexual Assault Center", "Marion"]
+["Another Way, Inc.", "Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy", "(386) 719-2700", "https://anotherwayinc.net"],
+["Vivid Visions, Inc.", "Suwannee", "(386) 364-5957", "https://vividvisionsinc.org"],
+["Peaceful Paths Domestic Abuse Network", "Alachua, Bradford, Union", "(352) 377-5690", "https://peacefulpaths.org"],
+["Ocala Domestic Violence / Sexual Assault Center", "Marion", "(352) 351-4009", null]
 ],
 "Northeast": [
-["Hubbard House (Spouse Abuse, Inc.)", "Baker, Duval"],
-["Micah's Place, Inc.", "Nassau"],
-["Quigley House, Inc.", "Clay"],
-["Betty Griffin House (Safety Shelter of St. Johns Co.)", "St. Johns"],
-["Lee Conlee House", "Putnam"],
-["Beacon Center", "Volusia"],
-["Family Life Center (Flagler Ecumenical SSC)", "Flagler"]
+["Hubbard House (Spouse Abuse, Inc.)", "Baker, Duval", "(904) 354-0076", null],
+["Micah's Place, Inc.", "Nassau", "(904) 491-6364", "https://micahsplace.org"],
+["Quigley House, Inc.", "Clay", "(904) 284-0340", "https://quigleyhouse.org"],
+["Betty Griffin House (Safety Shelter of St. Johns Co.)", "St. Johns", "(904) 808-8544", null],
+["Lee Conlee House", "Putnam", "(386) 325-4447", "https://leeconleehouse.org"],
+["Beacon Center", "Volusia", "(386) 257-2297", null],
+["Family Life Center (Flagler Ecumenical SSC)", "Flagler", "(386) 437-7747", "https://familylifecenterflagler.org"]
 ],
 "Central": [
-["Harbor House", "Orange"],
-["Haven of Lake and Sumter Counties", "Sumter, Lake"],
-["Help Now of Osceola, Inc.", "Osceola"],
-["Peace River Center DV Shelter", "Hardee, Highlands, Polk"]
+["Harbor House", "Orange", "(407) 886-2244", "https://harborhousefl.com"],
+["Haven of Lake and Sumter Counties", "Sumter, Lake", "(352) 315-0591", "https://havenlakesumter.org"],
+["Help Now of Osceola, Inc.", "Osceola", "(407) 847-3260", null],
+["Peace River Center DV Shelter", "Hardee, Highlands, Polk", "(863) 413-2708", "https://peacerivercenter.org"]
 ],
 "Tampa Bay": [
-["Community Action Stops Abuse", "Pinellas"],
-["The Haven of RCS", "Pinellas"],
-["DAWN Center of Hernando Co. (Salvare, Inc.)", "Hernando"],
-["Sunrise of Pasco", "Pasco"],
-["Salvation Army DV Program of West Pasco", "Pasco"],
-["The Spring of Tampa Bay, Inc.", "Hillsborough"],
-["Citrus County Abuse Shelter Assoc. (CASA)", "Citrus"]
+["Community Action Stops Abuse", "Pinellas", "(727) 895-4912", "https://casa-stpete.org"],
+["The Haven of RCS", "Pinellas", "(727) 584-3528", "https://rcspinellas.org"],
+["DAWN Center of Hernando Co. (Salvare, Inc.)", "Hernando", "(352) 684-7191", "https://thedawncenter.com"],
+["Sunrise of Pasco", "Pasco", "(352) 521-3358", "https://sunrisepasco.org"],
+["Salvation Army DV Program of West Pasco", "Pasco", "(727) 856-6498", "https://salvationarmywestpasco.org"],
+["The Spring of Tampa Bay, Inc.", "Hillsborough", "(813) 247-5433", "https://thespring.org"],
+["Citrus County Abuse Shelter Assoc. (CASA)", "Citrus", "(352) 344-8112", "https://casafl.org"]
 ],
 "Southwest": [
-["Abuse Counseling and Treatment, Inc. (ACT)", "Glades, Hendry, Lee"],
-["Center for Abuse and Rape Emergencies (CARE)", "Charlotte"],
-["Safe Place and Rape Crisis Center (SPARCC)", "DeSoto, Sarasota"],
-["Shelter for Abused Women & Children (SAWCC)", "Collier"]
+["Abuse Counseling and Treatment, Inc. (ACT)", "Glades, Hendry, Lee", "(239) 939-2553", "https://actabuse.com"],
+["Center for Abuse and Rape Emergencies (CARE)", "Charlotte", "(941) 639-5499", "https://carefl.org"],
+["Safe Place and Rape Crisis Center (SPARCC)", "DeSoto, Sarasota", "(941) 365-0208", "https://sparcc.net"],
+["Shelter for Abused Women & Children (SAWCC)", "Collier", "(239) 775-3862", "https://naplesshelter.org"]
 ],
 "Space & Treasure Coast": [
-["Salvation Army Brevard County", "Brevard"],
-["Serene Harbor", "Brevard"],
-["SafeSpace, Inc.", "Indian River, Martin, St. Lucie"],
-["Martha's House", "Okeechobee"],
-["SafeHouse of Seminole", "Seminole"]
+["Salvation Army Brevard County", "Brevard", "(321) 631-2766", "https://salvationarmyncbrevard.org"],
+["Serene Harbor", "Brevard", "(321) 726-8282", "https://sereneharbor.org"],
+["SafeSpace, Inc.", "Indian River, Martin, St. Lucie", "(772) 223-2399", "https://safespacefl.org"],
+["Martha's House", "Okeechobee", "(863) 763-2893", "https://marthashouse.org"],
+["SafeHouse of Seminole", "Seminole", "(407) 302-5220", "https://safehousefl.com"]
 ],
 "Southeast": [
-["Aid to Victims of Domestic Abuse", "Palm Beach"],
-["YWCA Harmony House of Palm Beach County", "Palm Beach"],
-["Women In Distress of Broward County", "Broward"],
-["HOPE Family Services, Inc.", "Manatee"]
+["Aid to Victims of Domestic Abuse", "Palm Beach", "(561) 265-3797", null],
+["YWCA Harmony House of Palm Beach County", "Palm Beach", "(561) 640-0050", "https://ywcapbc.org"],
+["Women In Distress of Broward County", "Broward", "(954) 760-9800", null],
+["HOPE Family Services, Inc.", "Manatee", "(941) 747-8499", "https://hopefamilyservice.org"]
 ],
 "South Florida": [
-["Miami-Dade Advocates for Victims, Safespace", "North Miami-Dade"],
-["The Lodge (Victim Response, Inc.)", "Miami-Dade"],
-["Domestic Abuse Shelter", "Monroe"]
+["Miami-Dade Advocates for Victims, Safespace", "North Miami-Dade", "(305) 285-5904", "https://safespacefoundation.org"],
+["The Lodge (Victim Response, Inc.)", "Miami-Dade", "(305) 667-2456", "https://thelodgemiami.org"],
+["Domestic Abuse Shelter", "Monroe", "(305) 743-5452", null]
 ]
 };
 
@@ -209,10 +211,11 @@ let html = '';
 for (const [region, orgs] of Object.entries(REGIONS)){
 html += `<section class="region" data-region="${region.toLowerCase()}">
 <h2>${region}</h2><hr class="divider">`;
-for (const [name, counties] of orgs){
+for (const [name, counties, phone, website] of orgs){
 html += `<article class="center-card" data-search="${(region+' '+name+' '+counties).toLowerCase()}">
 <h3>${name}</h3>
 <div class="counties">Counties: ${counties}</div>
+<div class="contact"><a href="tel:${phone.replace(/[^0-9+]/g,'')}">${phone}</a>${website ? `<a href="${website}" target="_blank" rel="noopener">Website</a>` : ''}</div>
 </article>`;
 }
 html += `</section>`;
