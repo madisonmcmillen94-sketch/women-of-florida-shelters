@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources — Women of Florida Shelters</title>
+<meta name="description" content="Safety planning, legal help, financial assistance, resources for parents and children, and more for domestic violence survivors in Florida.">
+<!-- Google tag (gtag.js) — replace G-1Z1WDZ0ZQ5 with your real GA4 Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1Z1WDZ0ZQ5"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-1Z1WDZ0ZQ5', {
+'anonymize_ip': true,
+'allow_google_signals': false,
+'allow_ad_personalization_signals': false
+});
+</script>
+<style>
+:root{
+--plum-top:#5b4a7a; --plum-bottom:#3a2f5c; --card:#ffffff; --gold:#dea360;
+--text-dark:#2b2638; --text-muted:#6e687a; --hotline:#c45a5a; --light:#ffffff;
+}
+*{box-sizing:border-box;}
+body{
+margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+background:linear-gradient(180deg,var(--plum-top),var(--plum-bottom)); color:var(--text-dark); min-height:100vh;
+}
+a{color:inherit;}
+.skip-link{position:absolute; left:-999px; top:auto;}
+.skip-link:focus{left:16px; top:16px; background:#fff; color:#000; padding:8px 12px; border-radius:6px; z-index:999;}
+
+#quick-exit{
+position:fixed; top:14px; right:14px; z-index:1000;
+background:var(--hotline); color:#fff; border:none; border-radius:8px;
+padding:10px 16px; font-size:15px; font-weight:700; cursor:pointer;
+box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+#quick-exit:hover{background:#a94848;}
+.exit-note{position:fixed; top:52px; right:14px; z-index:1000; font-size:11px; color:#fff; opacity:.75; max-width:180px; text-align:right;}
+
+header.hero{padding:60px 24px 32px; max-width:900px; margin:0 auto; text-align:left;}
+.logo-mark{display:block; height:96px; width:auto; margin-bottom:18px; background:#faf8f5; border-radius:14px; padding:12px 16px;}
+.kicker{color:var(--gold); font-weight:700; letter-spacing:.08em; font-size:14px; text-transform:uppercase;}
+h1{font-size:clamp(30px,5vw,46px); line-height:1.1; margin:10px 0 16px; color:#fff;}
+.sub{color:#e6e0f0; font-size:17px; line-height:1.55; max-width:680px;}
+
+.nav-toggle{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+.nav-toggle a{
+padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none;
+border:1px solid rgba(255,255,255,.35); color:#fff;
+}
+.nav-toggle a.active{background:var(--gold); color:#2b2638; border-color:var(--gold);}
+
+.hotline-banner{
+background:var(--hotline); color:#fff; padding:18px 24px; border-radius:14px;
+max-width:900px; margin:24px auto 0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px;
+}
+.hotline-banner .label{font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:.05em; opacity:.9;}
+.hotline-banner .number{font-size:28px; font-weight:800;}
+.hotline-banner .tdd{font-size:14px; opacity:.9;}
+
+/* Section sub-nav */
+.subnav-wrap{position:sticky; top:0; z-index:50; background:var(--plum-bottom); box-shadow:0 2px 10px rgba(0,0,0,.25);}
+.subnav{max-width:900px; margin:0 auto; padding:12px 24px; display:flex; gap:8px; flex-wrap:wrap; overflow-x:auto;}
+.subnav a{
+font-size:13px; font-weight:600; color:#e6e0f0; text-decoration:none;
+padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.25); white-space:nowrap;
+}
+.subnav a:hover{border-color:var(--gold); color:#fff;}
+
+main{max-width:900px; margin:0 auto; padding:12px 24px 40px;}
+
+.res-section{
+background:var(--card); border-radius:16px; padding:28px 28px 30px; margin-top:24px;
+box-shadow:0 4px 18px rgba(0,0,0,.12);
+}
+.res-section h2{margin:0 0 6px; font-size:24px; color:var(--text-dark);}
+.res-section .section-kicker{color:#a5772f; font-weight:700; letter-spacing:.06em; font-size:12px; text-transform:uppercase; margin-bottom:6px;}
+.res-section p{line-height:1.65; color:var(--text-dark); margin:12px 0;}
+.res-section p.muted{color:var(--text-muted); font-size:14px;}
+.res-section ul{padding-left:20px; line-height:1.7;}
+.res-section li{margin-bottom:6px;}
+.res-section h3{font-size:17px; margin:22px 0 8px; color:var(--text-dark);}
+.res-section a.inline-link{color:#6a4fa0; text-decoration:underline; font-weight:600;}
+
+.callout{
+background:#f6f1ff; border-left:4px solid #8a6fc4; border-radius:8px;
+padding:14px 18px; margin:16px 0; font-size:14.5px; line-height:1.6; color:var(--text-dark);
+}
+.callout.gold{background:#fdf3e3; border-left-color:var(--gold);}
+.callout.rose{background:#fbeceb; border-left-color:var(--hotline);}
+
+.contact-card{
+background:#faf8f5; border-radius:10px; padding:14px 18px; margin:10px 0;
+display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; align-items:center;
+}
+.contact-card .name{font-weight:700; font-size:15px;}
+.contact-card .detail{font-size:13.5px; color:var(--text-muted);}
+.contact-card a{color:#6a4fa0; text-decoration:underline; font-weight:600; font-size:14px;}
+
+.faq-item{margin-bottom:18px;}
+.faq-item .q{font-weight:700; font-size:15.5px; margin-bottom:4px;}
+.faq-item .a{color:var(--text-dark); line-height:1.6;}
+
+.checklist{list-style:none; padding-left:0;}
+.checklist li{
+padding-left:30px; position:relative; margin-bottom:10px; line-height:1.55;
+}
+.checklist li::before{
+content:""; position:absolute; left:0; top:3px; width:18px; height:18px;
+border:2px solid var(--gold); border-radius:4px;
+}
+
+.print-note{font-size:12.5px; color:var(--text-muted); margin-top:18px; border-top:1px dashed #ddd; padding-top:12px;}
+
+footer{max-width:900px; margin:0 auto; padding:20px 24px 60px; color:#e6e0f0; font-size:14px; line-height:1.6;}
+footer a{color:var(--gold); text-decoration:underline;}
+.social-row{display:flex; align-items:center; gap:8px; margin-top:6px;}
+.social-row svg{flex-shrink:0;}
+
+@media print{
+  #quick-exit, .exit-note, .subnav-wrap, header.hero, .hotline-banner, footer, .nav-toggle{display:none !important;}
+  body{background:#fff; color:#000;}
+  .res-section{box-shadow:none; border:1px solid #ccc;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to resources</a>
+<button id="quick-exit" onclick="quickExit()" aria-label="Leave this site immediately">Leave Site ✕</button>
+<div class="exit-note">Press Esc 3× to exit fast</div>
+
+<header class="hero">
+<img class="logo-mark" src="assets/logo.png" alt="Women of Florida Shelters logo">
+<div class="kicker">Resource &amp; Peer Navigation Hub</div>
+<h1>Resources Beyond Shelter</h1>
+<p class="sub">Safety planning, legal and immigration help, financial assistance, support for parents and children, and answers to the questions people are often afraid to ask.</p>
+<nav class="nav-toggle">
+<a href="index.html">Home</a>
+<a href="directory.html">List view</a>
+<a href="map.html">Map view</a>
+<a href="resources.html" class="active">Resources</a>
+</nav>
+</header>
+
+<div class="hotline-banner">
+<span class="label">24/7 Statewide Hotline</span>
+<span class="number">1-800-500-1119</span>
+<span class="tdd">TDD: 1-800-621-4202</span>
+</div>
+
+<div class="subnav-wrap">
+<nav class="subnav" aria-label="Jump to section">
+<a href="#safety-planning">Safety Planning</a>
+<a href="#parents-children">Parents &amp; Children</a>
+<a href="#legal-immigration">Legal &amp; Immigration</a>
+<a href="#financial-housing">Financial &amp; Housing</a>
+<a href="#more-help">More Ways to Reach Help</a>
+<a href="#faq">FAQ</a>
+<a href="#friends-family">For Friends &amp; Family</a>
+</nav>
+</div>
+
+<main id="main">
+
+<section class="res-section" id="safety-planning">
+  <div class="section-kicker">Safety Planning</div>
+  <h2>Having a plan ready</h2>
+  <p>A safety plan won't cover everything, but having a few things decided ahead of time — before you're in a rush or a crisis — can make leaving faster and safer if you ever need to.</p>
+
+  <h3>A bag, ready to go</h3>
+  <p class="muted">Kept somewhere your abuser won't find it — a trusted friend's house, your car trunk, or at work — rather than packed and visible at home.</p>
+  <ul class="checklist">
+    <li>ID and birth certificates — yours and your children's, or copies if you can't take the originals</li>
+    <li>Some cash, and a spare phone or charger if you have one</li>
+    <li>Any medications you or your kids need</li>
+    <li>A change of clothes for you and each child</li>
+    <li>Copies of important documents: lease, insurance, custody or court paperwork</li>
+    <li>A small comfort item for each child</li>
+  </ul>
+
+  <h3>People and places</h3>
+  <p>Decide ahead of time: two or three people you could call, one place you could go (a friend, family member, or a shelter from our directory), and — if it's useful — a code word you can text or say to signal you need help without spelling it out.</p>
+
+  <h3>Digital safety</h3>
+  <p>If a device is shared or might be checked, assume it's monitored. Where possible, use a friend's phone, a library computer, or a device your abuser doesn't have access to for anything related to leaving.</p>
+  <ul>
+    <li>Clear your browser history after visiting sites like this one — or use the <strong>Leave Site</strong> button (top right, or press Esc three times) to exit fast</li>
+    <li>Consider whether a shared car could have a GPS tracker — a mechanic or locksmith can do a physical sweep</li>
+    <li>Log out of shared accounts and cloud photo backups that could reveal your location</li>
+    <li>A separate, low-cost prepaid phone kept somewhere private can be a safe way to make calls or texts</li>
+  </ul>
+
+  <div class="print-note">This section is designed to print cleanly (Ctrl/Cmd+P) if you'd rather have it on paper than in your browser history.</div>
+</section>
+
+<section class="res-section" id="parents-children">
+  <div class="section-kicker">For Parents &amp; Children</div>
+  <h2>Bringing kids into the picture</h2>
+  <p>Leaving looks different with children involved, and there are resources built specifically for that.</p>
+
+  <div class="callout gold">Shelter policies on children's ages and pets vary by center — many shelters have an age limit for teenage boys because of shared housing, and not all are able to take pets. It's completely normal to ask directly when you call: does this shelter accept boys my son's age? Is there any option for my pet? Advocates expect these questions and can often point you to an alternative if a particular center can't accommodate you.</div>
+
+  <h3>Your children's right to stay in school</h3>
+  <p>Under the federal McKinney-Vento Act, children displaced by domestic violence — whether you're in a shelter, a motel, or staying with family — have real rights most parents don't know about:</p>
+  <ul>
+    <li>Immediate enrollment in a new school, even without the records normally required (immunization records, proof of address, birth certificate) — those can follow later</li>
+    <li>The right to stay enrolled in their <em>current</em> school with transportation provided, if that's determined to be better for them — this can continue through the end of the school year, even after you find permanent housing</li>
+    <li>Every school district has a McKinney-Vento liaison whose job is to help with exactly this — ask the school for them by name</li>
+  </ul>
+
+  <h3>If you're worried about a child's safety</h3>
+  <p>Florida's child abuse and neglect hotline is <a class="inline-link" href="tel:18009622873">1-800-962-2873</a> (1-800-96-ABUSE), run by the Department of Children and Families. Reaching out for help for yourself and your children as domestic violence victims is not the same thing as a report being made against you.</p>
+
+  <h3>Counseling for kids</h3>
+  <p>Many of the centers in our <a class="inline-link" href="directory.html">directory</a> offer trauma-informed counseling for children, not just adults — ask when you call.</p>
+</section>
+
+<section class="res-section" id="legal-immigration">
+  <div class="section-kicker">Legal &amp; Immigration Help</div>
+  <h2>Know your legal options</h2>
+
+  <h3>Protective order</h3>
+  <p>Florida's civil "Injunction for Protection Against Domestic Violence" (Fla. Stat. §741.30) can be filed at your county courthouse through the Clerk of Court. It's free — Florida law prohibits charging a filing fee — you're not required to have a lawyer, and you don't need to already have a police report to petition. A shelter advocate can often go with you or help you prepare what to say.</p>
+
+  <h3>Address confidentiality</h3>
+  <p>Florida's Attorney General's office runs an Address Confidentiality Program that lets survivors use a substitute address so their real address doesn't show up in public records. A shelter advocate or legal aid organization can help you enroll.</p>
+
+  <h3>If immigration status is part of what's keeping you</h3>
+  <p>Two federal protections exist specifically for this:</p>
+  <ul>
+    <li><strong>VAWA self-petition</strong> — an abused spouse, child, or parent of a U.S. citizen or green-card holder can apply for immigration status on their own, without the abuser's knowledge or involvement.</li>
+    <li><strong>U-visa</strong> — available to victims of certain crimes, including domestic violence, who cooperate with law enforcement.</li>
+  </ul>
+  <p>An immigration attorney or legal aid organization can help figure out which applies to your situation.</p>
+
+  <h3>Free and low-cost legal help in Florida</h3>
+  <div class="contact-card">
+    <div><div class="name">Florida Rural Legal Services</div><div class="detail">Free civil legal aid, including domestic violence, across 13 central/south FL counties</div></div>
+    <a href="https://www.frls.org/family-law-domestic-violence" target="_blank" rel="noopener">frls.org</a>
+  </div>
+  <div class="contact-card">
+    <div><div class="name">Dade Legal Aid</div><div class="detail">Dedicated domestic violence, sexual assault &amp; stalking legal team — Miami-Dade County</div></div>
+    <a href="tel:3055795733">305-579-5733</a>
+  </div>
+  <div class="contact-card">
+    <div><div class="name">Community Legal Services of Mid-Florida</div><div class="detail">Family law help — Ocala, Daytona Beach, Sanford &amp; surrounding counties</div></div>
+    <a href="https://clsmf.org/services/family-law" target="_blank" rel="noopener">clsmf.org</a>
+  </div>
+  <p class="muted">Outside these areas, the Florida Bar's Lawyer Referral Service can help point you to local free or low-cost help.</p>
+
+  <h3>Custody</h3>
+  <p>A family law attorney or legal aid organization can advise on custody specific to domestic violence situations — Florida courts do take documented abuse into account.</p>
+</section>
+
+<section class="res-section" id="financial-housing">
+  <div class="section-kicker">Financial &amp; Housing Help</div>
+  <h2>Money and a safe place to live</h2>
+
+  <div class="callout rose">
+    <strong>Florida Crime Victim Compensation</strong> is one of the most under-known resources available — many survivors qualify and never apply. It can cover medical and dental bills, mental health counseling, lost wages, funeral costs, and relocation expenses for your safety. You generally need to apply within 1 year of the incident (extensions possible for good cause).<br><br>
+    <strong>Call 1-800-226-6667</strong>, or visit the Florida Attorney General's <a class="inline-link" href="https://www.myfloridalegal.com/crime-victims-services/crime-victims-services-general-information" target="_blank" rel="noopener">Crime Victims Services page</a> to apply.
+  </div>
+
+  <h3>Housing protections</h3>
+  <p>If you live in public housing or use a Section 8 voucher, federal law (VAWA) says you cannot be denied housing or evicted solely because you are a domestic violence victim — and you may qualify for an emergency transfer to a safer unit without having to reapply from scratch.</p>
+
+  <h3>Beyond emergency shelter</h3>
+  <p>Many centers in our <a class="inline-link" href="directory.html">directory</a> also run transitional or rapid-rehousing programs for the months after shelter — ask when you call, even if you're not ready for that step yet.</p>
+
+  <h3>Building financial independence</h3>
+  <p>When it's safe to do so, a bank account or credit card in your name only can make a real difference. Many shelters also offer, or can refer you to, job training and workforce reentry programs.</p>
+</section>
+
+<section class="res-section" id="more-help">
+  <div class="section-kicker">More Ways to Reach Help</div>
+  <h2>If calling isn't safe right now</h2>
+  <p>Florida's statewide hotline (1-800-500-1119) is listed at the top of every page on this site. A few other lines are worth knowing:</p>
+
+  <div class="contact-card">
+    <div><div class="name">National Domestic Violence Hotline</div><div class="detail">Call, text, or chat — texting can be safer if your phone is monitored</div></div>
+    <div><a href="tel:18007997233">1-800-799-7233</a> · text START to <a href="sms:88788">88788</a> · <a href="https://www.thehotline.org" target="_blank" rel="noopener">chat online</a></div>
+  </div>
+  <div class="contact-card">
+    <div><div class="name">RAINN National Sexual Assault Hotline</div><div class="detail">Free and confidential — sexual assault often happens alongside domestic violence</div></div>
+    <a href="tel:18006564673">1-800-656-4673</a>
+  </div>
+</section>
+
+<section class="res-section" id="faq">
+  <div class="section-kicker">FAQ</div>
+  <h2>Questions people are often afraid to ask</h2>
+
+  <div class="faq-item">
+    <div class="q">Will calling mean the police get involved?</div>
+    <div class="a">No. Reaching out to a shelter or hotline is confidential and isn't the same as filing a police report. You decide whether and when law enforcement is involved.</div>
+  </div>
+  <div class="faq-item">
+    <div class="q">Will I lose custody of my kids if I go to a shelter?</div>
+    <div class="a">No — going to a shelter to protect yourself and your children is not grounds for losing custody. Documented abuse is something Florida family courts consider when making custody decisions.</div>
+  </div>
+  <div class="faq-item">
+    <div class="q">Is any of this free?</div>
+    <div class="a">Yes. Shelters, hotlines, protective orders, Crime Victim Compensation, and legal aid listed here are all free.</div>
+  </div>
+  <div class="faq-item">
+    <div class="q">Can I stay anonymous?</div>
+    <div class="a">Yes. You don't need to give your real name to call a hotline or ask a shelter general questions, and shelter locations are kept confidential.</div>
+  </div>
+  <div class="faq-item">
+    <div class="q">What actually happens when I call?</div>
+    <div class="a">An advocate listens, won't pressure you into a decision, and helps you figure out next steps at your own pace — that might mean information, a safety plan, shelter, or just someone to talk to that day.</div>
+  </div>
+</section>
+
+<section class="res-section" id="friends-family">
+  <div class="section-kicker">For Friends &amp; Family</div>
+  <h2>If someone you love is going through this</h2>
+  <p>A lot of people land on this page not for themselves, but because they're worried about someone else. A few things that genuinely help:</p>
+  <ul>
+    <li>Believe them, and don't judge their choices — leaving is often the most dangerous point, not the safest, and there are reasons someone may not be ready to yet</li>
+    <li>Let them set the pace — pushing can push them away from support, not toward it</li>
+    <li>Offer quiet, practical help — holding onto a go-bag, being listed as a safe contact, or just being reachable</li>
+    <li>The hotline numbers on this page are for you too — advocates can talk you through how to help without taking over</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+<p>This page is a directory and resource guide only — it does not operate any shelter. If you are in immediate danger, call 911. For the official statewide list, visit
+<a href="https://www.fcadv.org/centers" target="_blank" rel="noopener">fcadv.org/centers</a>.</p>
+<p>If you're worried someone might see you visited this page: the "Leave Site" button (or pressing Esc three times) takes you to a neutral page immediately. Consider using a private/incognito window and clearing your browser history afterward.</p>
+<div class="social-row">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#dea360" aria-hidden="true"><path d="M22 12.06C22 6.505 17.523 2 12 2S2 6.505 2 12.06c0 5.02 3.657 9.184 8.438 9.94v-7.03H7.898v-2.91h2.54V9.845c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.877h2.773l-.443 2.91h-2.33V22c4.78-.756 8.437-4.92 8.437-9.94Z"/></svg>
+<span>Follow <a href="https://www.facebook.com/profile.php?id=61593326546382" target="_blank" rel="noopener">Women Of Florida Shelters on Facebook</a> for updates and peer support.</span>
+</div>
+</footer>
+
+<script>
+function quickExit(){
+window.location.replace('https://www.weather.com');
+}
+
+let escCount = 0, escTimer = null;
+document.addEventListener('keyup', (e) => {
+if (e.key === 'Escape'){
+escCount++;
+clearTimeout(escTimer);
+escTimer = setTimeout(() => { escCount = 0; }, 1200);
+if (escCount >= 3) quickExit();
+}
+});
+</script>
+</body>
+</html>
