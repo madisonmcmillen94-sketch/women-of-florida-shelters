@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /adminstats.html
+
+Sitemap: https://womenoffloridashelters.org/sitemap.xml
