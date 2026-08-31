@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Women of Florida Shelters</title>
+<meta name="description" content="About Women of Florida Shelters, a peer navigation hub connecting survivors of domestic violence to FCADV-certified shelters across Florida.">
+<style>
+:root{
+--plum-top:#5b4a7a; --plum-bottom:#3a2f5c; --card:#ffffff; --gold:#dea360;
+--text-dark:#2b2638; --text-muted:#6e687a; --hotline:#c45a5a; --light:#ffffff;
+}
+*{box-sizing:border-box;}
+body{
+margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+background:linear-gradient(180deg,var(--plum-top),var(--plum-bottom)); color:var(--text-dark); min-height:100vh;
+}
+a{color:inherit;}
+.skip-link{position:absolute; left:-999px; top:auto;}
+.skip-link:focus{left:16px; top:16px; background:#fff; color:#000; padding:8px 12px; border-radius:6px; z-index:999;}
+
+#quick-exit{
+position:fixed; top:14px; right:14px; z-index:1000;
+background:var(--hotline); color:#fff; border:none; border-radius:8px;
+padding:10px 16px; font-size:15px; font-weight:700; cursor:pointer;
+box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+#quick-exit:hover{background:#a94848;}
+.exit-note{position:fixed; top:52px; right:14px; z-index:1000; font-size:11px; color:#fff; opacity:.75; max-width:180px; text-align:right;}
+
+header.hero{padding:60px 24px 32px; max-width:900px; margin:0 auto; text-align:left;}.cover-banner{display:block; width:100%; height:auto; max-height:280px; object-fit:cover; object-position:center 30%;}
+.logo-mark{display:block; height:96px; width:auto; margin-bottom:18px; background:#faf8f5; border-radius:14px; padding:12px 16px;}
+.kicker{color:var(--gold); font-weight:700; letter-spacing:.08em; font-size:14px; text-transform:uppercase;}
+h1{font-size:clamp(30px,5vw,46px); line-height:1.1; margin:10px 0 16px; color:#fff;}
+.sub{color:#e6e0f0; font-size:17px; line-height:1.55; max-width:680px;}
+
+.nav-toggle{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+.nav-toggle a{
+padding:8px 16px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none;
+border:1px solid rgba(255,255,255,.35); color:#fff;
+}
+.nav-toggle a.active{background:var(--gold); color:#2b2638; border-color:var(--gold);}
+
+.hotline-banner{
+background:var(--hotline); color:#fff; padding:18px 24px; border-radius:14px;
+max-width:900px; margin:24px auto 0; display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px;
+}
+.hotline-banner .label{font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:.05em; opacity:.9;}
+.hotline-banner .number{font-size:28px; font-weight:800;}
+.hotline-banner .tdd{font-size:14px; opacity:.9;}
+
+main{max-width:900px; margin:0 auto; padding:12px 24px 40px;}
+
+.res-section{
+background:var(--card); border-radius:16px; padding:28px 28px 30px; margin-top:24px;
+box-shadow:0 4px 18px rgba(0,0,0,.12);
+}
+.res-section h2{margin:0 0 6px; font-size:24px; color:var(--text-dark);}
+.res-section .section-kicker{color:#a5772f; font-weight:700; letter-spacing:.06em; font-size:12px; text-transform:uppercase; margin-bottom:6px;}
+.res-section p{line-height:1.65; color:var(--text-dark); margin:12px 0;}
+.res-section p.muted{color:var(--text-muted); font-size:14px;}
+.res-section ul{padding-left:20px; line-height:1.7;}
+.res-section li{margin-bottom:6px;}
+.res-section h3{font-size:17px; margin:22px 0 8px; color:var(--text-dark);}
+.res-section a.inline-link{color:#6a4fa0; text-decoration:underline; font-weight:600;}
+
+.contact-card{
+background:#faf8f5; border-radius:10px; padding:14px 18px; margin:10px 0;
+display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; align-items:center;
+}
+.contact-card .name{font-weight:700; font-size:15px;}
+.contact-card .detail{font-size:13.5px; color:var(--text-muted);}
+.contact-card a{color:#6a4fa0; text-decoration:underline; font-weight:600; font-size:14px;}
+
+footer{max-width:900px; margin:0 auto; padding:20px 24px 60px; color:#e6e0f0; font-size:14px; line-height:1.6;}
+footer a{color:var(--gold); text-decoration:underline;}
+.social-row{display:flex; align-items:center; gap:8px; margin-top:6px;}
+.social-row svg{flex-shrink:0;}
+
+@media print{
+  #quick-exit, .exit-note, header.hero, .hotline-banner, footer, .nav-toggle{display:none !important;}
+  body{background:#fff; color:#000;}
+  .res-section{box-shadow:none; border:1px solid #ccc;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+<button id="quick-exit" onclick="quickExit()" aria-label="Leave this site immediately">Leave Site ✕</button>
+<div class="exit-note">Press Esc 3× to exit fast</div>
+
+<header class="hero">
+<img class="logo-mark" src="assets/logo.png" alt="Women of Florida Shelters logo">
+<div class="kicker">Resource &amp; Peer Navigation Hub</div>
+<h1>About This Site</h1>
+<p class="sub">Who we are, what this directory does (and doesn't do), and how to reach us.</p>
+<nav class="nav-toggle">
+<a href="index.html">Home</a>
+<a href="directory.html">List view</a>
+<a href="map.html">Map view</a>
+<a href="resources.html">Resources</a>
+<a href="about.html" class="active">About</a>
+</nav>
+</header>
+
+<div class="hotline-banner">
+<span class="label">24/7 Statewide Hotline</span>
+<span class="number">1-800-500-1119</span>
+<span class="tdd">TDD: 1-800-621-4202</span>
+</div>
+
+<main id="main">
+
+<section class="res-section" id="about">
+<div class="section-kicker">About Us</div>
+<h2>What This Site Is</h2>
+<p>Women of Florida Shelters is a peer navigation hub built to help survivors of domestic violence find the FCADV-certified shelter that serves their county, quickly and without barriers. We don't operate a shelter ourselves — we maintain this directory, map, and resource guide so that finding help doesn't add another obstacle to an already hard moment.</p>
+<p>This site is a project of [Your Organization's Legal Name], a Florida-based nonprofit. [Optional: We are a 501(c)(3) organization, EIN [XX-XXXXXXX]. Donations are tax-deductible to the extent allowed by law.]</p>
+</section>
+
+<section class="res-section" id="mission">
+<div class="section-kicker">Our Mission</div>
+<h2>Why We Do This</h2>
+<p>To make it faster and safer for survivors across Florida to find the help that's already out there — by keeping an accurate, easy-to-search directory of certified shelters and putting practical safety, legal, and financial resources in one place, at no cost to the people who need them.</p>
+</section>
+
+<section class="res-section" id="contact">
+<div class="section-kicker">Contact Us</div>
+<h2>Reach Us</h2>
+<p>Have a correction, a shelter to add, or a question about this site? Reach us at <a class="inline-link" href="mailto:[contact@womenoffloridashelters.org]">[contact@womenoffloridashelters.org]</a>.</p>
+<div class="contact-card">
+<div>
+<div class="name">Mailing Address</div>
+<div class="detail">[Organization Name], [Street Address or P.O. Box], [City, FL ZIP]</div>
+</div>
+</div>
+<p class="muted">If you are in immediate danger, please call 911. For 24/7 confidential support, call Florida's statewide domestic violence hotline at 1-800-500-1119.</p>
+</section>
+
+<section class="res-section" id="support">
+<div class="section-kicker">Support This Work</div>
+<h2>Help Keep This Online</h2>
+<p>[If applicable: This site is maintained by volunteers / a small team, and donations help keep it accurate and online. Donate via [link].]</p>
+</section>
+
+</main>
+
+<footer>
+<p>This page is a directory and resource guide only — it does not operate any shelter. If you are in immediate danger, call 911. For the official statewide list, visit
+<a href="https://www.fcadv.org/centers" target="_blank" rel="noopener">fcadv.org/centers</a>.</p>
+<p>If you're worried someone might see you visited this page: the "Leave Site" button (or pressing Esc three times) takes you to a neutral page immediately. Consider using a private/incognito window and clearing your browser history afterward.</p>
+<div class="social-row">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#dea360" aria-hidden="true"><path d="M22 12.06C22 6.505 17.523 2 12 2S2 6.505 2 12.06c0 5.02 3.657 9.184 8.438 9.94v-7.03H7.898v-2.91h2.54V9.845c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.877h2.773l-.443 2.91h-2.33V22c4.78-.756 8.437-4.92 8.437-9.94Z"/></svg>
+<span>Follow <a href="https://www.facebook.com/profile.php?id=61593326546382" target="_blank" rel="noopener">Women Of Florida Shelters on Facebook</a> for updates and peer support.</span>
+</div>
+</footer>
+
+<script>
+function quickExit(){
+window.location.replace('https://www.weather.com');
+}
+
+let escCount = 0, escTimer = null;
+document.addEventListener('keyup', (e) => {
+if (e.key === 'Escape'){
+escCount++;
+clearTimeout(escTimer);
+escTimer = setTimeout(() => { escCount = 0; }, 1200);
+if (escCount >= 3) quickExit();
+}
+});
+</script>
+</body>
+</html>
