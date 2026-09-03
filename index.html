@@ -6,6 +6,9 @@
 <title>Women of Florida Shelters — DV Resource &amp; Peer Navigation Hub</title>
 <meta name="description" content="Directory of all 42 FCADV-certified Florida domestic violence centers, grouped by region, with the statewide 24/7 hotline.">
   <link rel="canonical" href="https://womenoffloridashelters.org/">
+  <link rel="alternate" hreflang="en" href="https://womenoffloridashelters.org/">
+  <link rel="alternate" hreflang="es" href="https://womenoffloridashelters.org/es/">
+  <link rel="alternate" hreflang="x-default" href="https://womenoffloridashelters.org/">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Women of Florida Shelters — DV Resource & Peer Navigation Hub">
@@ -119,6 +122,7 @@ footer a{color:var(--gold); text-decoration:underline;}
 <a href="index.html" class="active">List view</a>
 <a href="map.html">Map view</a><a href="resources.html">Resources</a>
 <a href="about.html">About</a>
+<a href="es/index.html" lang="es">Español</a>
 </nav>
 </header>
 
@@ -128,12 +132,84 @@ footer a{color:var(--gold); text-decoration:underline;}
 <span class="tdd">TDD: 1-800-621-4202</span>
 </div>
 
+<!-- Smart Match: guided, rule-based routing (no AI text generation, no data collected) -->
+<section id="wofs-smart-match" aria-labelledby="wofs-sm-heading">
+<button type="button" id="wofs-sm-toggle" aria-expanded="false" aria-controls="wofs-sm-panel"><span aria-hidden="true">🧭</span> Not sure where to start? Answer a few quick questions &rarr;</button>
+<div id="wofs-sm-panel" hidden>
+<h2 id="wofs-sm-heading">Let&rsquo;s find the right help</h2>
+<p class="wofs-sm-subtle">This just points you to the right part of this site &mdash; it doesn&rsquo;t collect or send anything anywhere.</p>
+<div id="wofs-sm-step"></div>
+<div class="wofs-sm-controls"><button type="button" id="wofs-sm-back" hidden>&larr; Back</button><button type="button" id="wofs-sm-restart" hidden>Start over</button></div>
+</div>
+</section>
+<style>
+#wofs-smart-match{max-width:900px;margin:20px auto 0;padding:0 24px;}
+#wofs-sm-toggle{width:100%;text-align:left;background:#fff;color:#3a2f5c;border:2px solid #dea360;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer;}
+#wofs-sm-toggle:hover,#wofs-sm-toggle:focus{background:#faf3e8;}
+#wofs-sm-panel{background:#fff;border-radius:12px;margin-top:10px;padding:20px 22px;color:#2b2638;}
+#wofs-sm-panel h2{margin:0 0 4px;font-size:1.25rem;}
+.wofs-sm-subtle{color:#6e687a;font-size:13px;margin:0 0 16px;}
+.wofs-sm-question{font-weight:700;font-size:1.05rem;margin:0 0 14px;}
+.wofs-sm-options{display:flex;flex-direction:column;gap:10px;}
+.wofs-sm-options button{text-align:left;padding:12px 14px;border-radius:8px;border:1px solid #ddd;background:#faf8f5;cursor:pointer;font-size:15px;color:#2b2638;}
+.wofs-sm-options button:hover,.wofs-sm-options button:focus{border-color:#dea360;background:#fff5e8;}
+.wofs-sm-controls{margin-top:16px;display:flex;gap:14px;}
+.wofs-sm-controls button{background:none;border:none;text-decoration:underline;color:#5b4a7a;cursor:pointer;font-size:14px;padding:0;}
+.wofs-sm-danger{background:#fdeceb;border:2px solid #c45a5a;border-radius:8px;padding:16px;margin-bottom:14px;}
+.wofs-sm-danger strong{color:#a83c3c;}
+.wofs-sm-continue{margin-top:4px;padding:10px 14px;border-radius:8px;border:1px solid #ddd;background:#faf8f5;cursor:pointer;font-size:15px;}
+</style>
+<script>
+(function(){
+var FIND_SHELTER_INPUT_ID='search';
+var toggle=document.getElementById('wofs-sm-toggle');
+var panel=document.getElementById('wofs-sm-panel');
+var stepEl=document.getElementById('wofs-sm-step');
+var backBtn=document.getElementById('wofs-sm-back');
+var restartBtn=document.getElementById('wofs-sm-restart');
+var history=[];
+toggle.addEventListener('click',function(){var ex=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!ex));panel.hidden=ex;if(!ex){history=[];renderStep('start');}});
+function goToShelterSearch(){var input=document.getElementById(FIND_SHELTER_INPUT_ID);if(input){input.scrollIntoView({behavior:'smooth',block:'center'});input.focus();}else{window.location.href='index.html';}}
+var steps={
+start:{question:'Are you in danger right now?',options:[{label:'Yes — right now',next:'danger'},{label:"No, or I'm not sure",next:'who'}]},
+danger:{danger:true,render:function(){return '<div class="wofs-sm-danger"><p><strong>If you are in immediate danger, call 911.</strong></p><p>If calling isn\'t safe, text <strong>START</strong> to <strong>88788</strong> (National Domestic Violence Hotline) — texting can be safer if your phone might be monitored.</p><p>Florida\'s statewide hotline is <strong>1-800-500-1119</strong>, 24/7.</p></div><button type="button" class="wofs-sm-continue">I\'m safe for the moment — help me find more resources</button>';},wireUp:function(c){var b=c.querySelector('.wofs-sm-continue');if(b)b.addEventListener('click',function(){renderStep('who');});}},
+who:{question:'Who is this for?',options:[{label:'Myself',next:'need'},{label:'Someone I care about (a friend, family member, or coworker)',link:'resources.html#friends-family'}]},
+need:{question:'What do you need most right now?',options:[
+{label:'Find a shelter near me',run:goToShelterSearch},
+{label:"I'm thinking about leaving and want a safety plan",link:'resources.html#safety-planning'},
+{label:'I have kids — school, custody, or their safety',link:'resources.html#parents-children'},
+{label:'I need legal help or have immigration questions',link:'resources.html#legal-immigration'},
+{label:'I need money, housing, or help after leaving',link:'resources.html#financial-housing'},
+{label:"I'm in school or need childcare help",link:'resources.html#college-programs'},
+{label:"I already left and I'm rebuilding my life",link:'resources.html#getting-back-on-feet'},
+{label:"I have questions I'm nervous to ask",link:'resources.html#faq'},
+{label:"Something else / I'm not sure",link:'resources.html'}
+]}
+};
+function renderStep(id,push){
+if(push!==false&&history[history.length-1]!==id){history.push(id);}
+backBtn.hidden=history.length<2;restartBtn.hidden=history.length<2;
+var step=steps[id];var html='';
+if(step.danger){html=step.render();}
+else{html+='<p class="wofs-sm-question">'+step.question+'</p><div class="wofs-sm-options">';step.options.forEach(function(o,i){html+='<button type="button" data-idx="'+i+'">'+o.label+'</button>';});html+='</div>';}
+stepEl.innerHTML=html;
+if(step.wireUp)step.wireUp(stepEl);
+if(!step.danger){stepEl.querySelectorAll('.wofs-sm-options button').forEach(function(btn,i){btn.addEventListener('click',function(){var o=step.options[i];if(o.next)renderStep(o.next);else if(o.link)window.location.href=o.link;else if(o.run)o.run();});});}
+stepEl.setAttribute('tabindex','-1');stepEl.focus();
+}
+backBtn.addEventListener('click',function(){if(history.length>1){history.pop();renderStep(history[history.length-1],false);}});
+restartBtn.addEventListener('click',function(){history=[];renderStep('start');});
+})();
+</script>
+
+
 <div class="slider" aria-roledescription="carousel" aria-label="Featured resources"><div class="slider-track"><button class="slider-arrow prev" onclick="sliderMove(-1)" aria-label="Previous slide">‹</button><div class="slider-badge">Did you know?</div><div class="slide active" data-index="0"><h3>You may be eligible for Crime Victim Compensation</h3><p>Covers medical bills, counseling, lost wages, and relocation costs for survivors of domestic violence. Call 1-800-226-6667.</p><a class="slide-link" href="resources.html#financial-housing">Learn more →</a></div><div class="slide" data-index="1"><h3>A protective order is free — no lawyer required</h3><p>Florida's Injunction for Protection Against Domestic Violence can be filed at your county courthouse at no cost.</p><a class="slide-link" href="resources.html#legal-immigration">Learn more →</a></div><div class="slide" data-index="2"><h3>Texting can be safer than calling</h3><p>Text START to 88788 to reach the National Domestic Violence Hotline if your phone might be monitored.</p><a class="slide-link" href="resources.html#more-help">Learn more →</a></div><div class="slide" data-index="3"><h3>Your kids can enroll in school immediately</h3><p>Federal law lets children displaced by domestic violence enroll in a new school right away — no records required up front.</p><a class="slide-link" href="resources.html#parents-children">Learn more →</a></div><div class="slide" data-index="4"><h3>Have a safety plan ready</h3><p>A go-bag, a safe contact, and a plan for digital safety can make leaving faster if you ever need to.</p><a class="slide-link" href="resources.html#safety-planning">Learn more →</a></div><button class="slider-arrow next" onclick="sliderMove(1)" aria-label="Next slide">›</button></div><div class="slider-nav" role="tablist" aria-label="Slide selector"><button class="slider-dot active" onclick="sliderGoTo(0)" aria-label="Slide 1"></button><button class="slider-dot" onclick="sliderGoTo(1)" aria-label="Slide 2"></button><button class="slider-dot" onclick="sliderGoTo(2)" aria-label="Slide 3"></button><button class="slider-dot" onclick="sliderGoTo(3)" aria-label="Slide 4"></button><button class="slider-dot" onclick="sliderGoTo(4)" aria-label="Slide 5"></button></div></div><div class="search-wrap">
 <input id="search" type="text" placeholder="Search by county, region, or center name…" oninput="filterCenters()" aria-label="Search by county, region, or center name">
 <div class="search-hint">Example: try "Duval", "Tampa Bay", or "Harbor House".</div>
 </div>
 
 <main id="main">
+<div id="wofs-acc-filters"></div>
 <div id="regions"></div>
 <p class="no-results" id="no-results">No centers match that search. Try a different county name, or call the statewide hotline above — advocates can point you to the right center.</p>
 </main>
@@ -265,6 +341,58 @@ if (escCount >= 3) quickExit();
 });
 
 let sliderIndex=0;const sliderSlides=document.querySelectorAll('.slide');const sliderDots=document.querySelectorAll('.slider-dot');let sliderTimer=null;function sliderShow(i){sliderSlides.forEach(function(s){s.classList.remove('active');});sliderDots.forEach(function(d){d.classList.remove('active');});sliderIndex=(i+sliderSlides.length)%sliderSlides.length;sliderSlides[sliderIndex].classList.add('active');sliderDots[sliderIndex].classList.add('active');}function sliderMove(dir){sliderShow(sliderIndex+dir);}function sliderGoTo(i){sliderShow(i);}function sliderAuto(){sliderTimer=setInterval(function(){sliderMove(1);},7000);}const sliderEl=document.querySelector('.slider');if(sliderEl){sliderAuto();sliderEl.addEventListener('mouseenter',function(){clearInterval(sliderTimer);});sliderEl.addEventListener('mouseleave',sliderAuto);sliderEl.addEventListener('focusin',function(){clearInterval(sliderTimer);});sliderEl.addEventListener('focusout',sliderAuto);}renderRegions();
+</script>
+
+<style>
+#wofs-acc-filters{max-width:900px;margin:20px auto 0;padding:0 24px;display:flex;flex-wrap:wrap;gap:10px;}
+#wofs-acc-filters:empty{display:none;}
+.wofs-acc-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #ddd;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;color:#2b2638;}
+.wofs-acc-chip input{margin:0;}
+.wofs-acc-chip.active{border-color:#dea360;background:#fff5e8;}
+.wofs-acc-badges{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+.wofs-acc-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:#f3f0f8;color:#3a2f5c;}
+.wofs-acc-badge.no{background:#fdeceb;color:#a83c3c;}
+</style>
+<script>
+/* Accommodation badges + filters. Reads /shelters-accommodations.json.
+   Every value there starts as null ("not yet verified"); the filter bar stays
+   hidden until at least one shelter has confirmed, real data. Never enter a guess. */
+(function(){
+var FILTERS=[{key:'pets_allowed',label:'Pets allowed'},{key:'lgbtq_inclusive',label:'LGBTQ+ inclusive'},{key:'spanish_speaking_staff',label:'Spanish-speaking staff'},{key:'wheelchair_accessible',label:'Wheelchair accessible'}];
+var active={};
+function norm(s){return s.trim().toLowerCase();}
+fetch('/shelters-accommodations.json').then(function(r){return r.json();}).then(function(d){init(d.shelters||{});}).catch(function(e){console.warn('WOFS accommodation data not loaded:',e);});
+function init(data){
+var lookup={};Object.keys(data).forEach(function(n){lookup[norm(n)]=data[n];});
+var anyData=false;
+document.querySelectorAll('.center-card').forEach(function(card){
+var h=card.querySelector('h3');if(!h)return;var info=lookup[norm(h.textContent)];if(!info)return;
+var badges=[];
+FILTERS.forEach(function(f){if(info[f.key]===true)badges.push('<span class="wofs-acc-badge">'+f.label+'</span>');else if(info[f.key]===false)badges.push('<span class="wofs-acc-badge no">No '+f.label.toLowerCase()+'</span>');});
+if(typeof info.teen_boys_max_age==='number')badges.push('<span class="wofs-acc-badge">Boys up to age '+info.teen_boys_max_age+'</span>');
+if(badges.length){anyData=true;var w=document.createElement('div');w.className='wofs-acc-badges';w.innerHTML=badges.join('');card.appendChild(w);}
+card._acc=info;
+});
+if(!anyData)return;
+var bar=document.getElementById('wofs-acc-filters');
+FILTERS.forEach(function(f){
+var chip=document.createElement('label');chip.className='wofs-acc-chip';chip.innerHTML='<input type="checkbox"> '+f.label;bar.appendChild(chip);
+chip.querySelector('input').addEventListener('change',function(e){active[f.key]=e.target.checked;chip.classList.toggle('active',e.target.checked);apply();});
+});
+function apply(){
+var keys=Object.keys(active).filter(function(k){return active[k];});
+document.querySelectorAll('.center-card').forEach(function(card){
+if(!card._acc){card.classList.toggle('hidden',keys.length>0);return;}
+var ok=keys.every(function(k){return card._acc[k]===true;});
+card.classList.toggle('hidden',!ok);
+});
+document.querySelectorAll('.region').forEach(function(region){
+var visible=region.querySelectorAll('.center-card:not(.hidden)').length>0;
+region.classList.toggle('hidden',!visible);
+});
+}
+}
+})();
 </script>
 </body>
 </html>

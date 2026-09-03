@@ -1,0 +1,70 @@
+{
+  "_readme": [
+    "Every value below is null on purpose — I don't have verified information about any shelter's",
+    "pet policy, LGBTQ+ inclusiveness, language access, accessibility, or teen-boy age limits, and I",
+    "did not guess. Guessing here could send someone to a shelter that can't actually take them.",
+    "Fill this in only from information you've confirmed directly with each shelter (a phone call is",
+    "the reliable way — many of these details aren't posted on the shelters' own websites).",
+    "",
+    "Schema per shelter:",
+    "  pets_allowed: true | false | null (null = not yet verified)",
+    "  lgbtq_inclusive: true | false | null",
+    "  spanish_speaking_staff: true | false | null",
+    "  wheelchair_accessible: true | false | null",
+    "  teen_boys_max_age: a number (e.g. 12) if there's an age limit on teenage boys, or null if unknown/no limit confirmed",
+    "  notes: a short free-text string for anything else worth flagging (optional, leave as empty string if none)",
+    "  last_verified: date string 'YYYY-MM-DD' for when you last confirmed these details by phone, or null"
+  ],
+  "shelters": {
+    "Favor House of Northwest Florida": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Shelter House, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Salvation Army of Panama City": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Refuge House": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Another Way, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Vivid Visions, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Peaceful Paths Domestic Abuse Network": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Ocala Domestic Violence / Sexual Assault Center": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Hubbard House (Spouse Abuse, Inc.)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Micah's Place, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Quigley House, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Betty Griffin House (Safety Shelter of St. Johns Co.)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Lee Conlee House": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Beacon Center": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Family Life Center (Flagler Ecumenical SSC)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Harbor House": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Haven of Lake and Sumter Counties": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Help Now of Osceola, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Peace River Center DV Shelter": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Community Action Stops Abuse": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "The Haven of RCS": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "DAWN Center of Hernando Co. (Salvare, Inc.)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Sunrise of Pasco": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Salvation Army DV Program of West Pasco": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "The Spring of Tampa Bay, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Citrus County Abuse Shelter Assoc. (CASA)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Abuse Counseling and Treatment, Inc. (ACT)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Center for Abuse and Rape Emergencies (CARE)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Safe Place and Rape Crisis Center (SPARCC)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Shelter for Abused Women & Children (SAWCC)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Salvation Army Brevard County": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Serene Harbor": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "SafeSpace, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Martha's House": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "SafeHouse of Seminole": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Aid to Victims of Domestic Abuse": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "YWCA Harmony House of Palm Beach County": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Women In Distress of Broward County": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "HOPE Family Services, Inc.": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+
+    "Miami-Dade Advocates for Victims, Safespace": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "The Lodge (Victim Response, Inc.)": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null },
+    "Domestic Abuse Shelter": { "pets_allowed": null, "lgbtq_inclusive": null, "spanish_speaking_staff": null, "wheelchair_accessible": null, "teen_boys_max_age": null, "notes": "", "last_verified": null }
+  }
+}
