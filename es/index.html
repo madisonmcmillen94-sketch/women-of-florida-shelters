@@ -1,1 +1,424 @@
-placeholder - replaced in next commit
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women of Florida Shelters — Centro de Recursos y Apoyo entre Pares</title>
+<meta name="description" content="Directorio de los 42 centros de violencia doméstica certificados por FCADV en Florida, agrupados por región, con la línea directa estatal 24/7.">
+<link rel="canonical" href="https://womenoffloridashelters.org/es/">
+<link rel="alternate" hreflang="en" href="https://womenoffloridashelters.org/">
+<link rel="alternate" hreflang="es" href="https://womenoffloridashelters.org/es/">
+<link rel="alternate" hreflang="x-default" href="https://womenoffloridashelters.org/">
+<link rel="icon" type="image/png" href="/assets/logo.png">
+<meta property="og:title" content="Women of Florida Shelters — Recursos para sobrevivientes en Florida">
+<meta property="og:description" content="Directorio de los 42 centros de violencia doméstica certificados por FCADV en Florida, agrupados por región.">
+<meta property="og:image" content="https://womenoffloridashelters.org/assets/cover-banner.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"NGO","name":"Women of Florida Shelters","url":"https://womenoffloridashelters.org/es/","logo":"https://womenoffloridashelters.org/assets/logo.png","description":"Centro de navegación entre pares que conecta a sobrevivientes de violencia doméstica con refugios certificados por FCADV en toda Florida.","sameAs":["https://www.facebook.com/profile.php?id=61593326546382"],"inLanguage":"es"}
+</script>
+<style>
+  :root{
+    --purple-a:#5b4a7a;
+    --purple-b:#3a2f5c;
+    --gold:#dea360;
+    --coral:#c45a5a;
+    --card-bg:#ffffff;
+    --lavender:#f3f0f8;
+    --cream:#faf8f5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(var(--purple-a), var(--purple-b));
+    color:#2a2438;
+  }
+  a{color:inherit;}
+  .skip-link{position:absolute;left:-9999px;top:0;background:#fff;padding:8px 12px;z-index:100;}
+  .skip-link:focus{left:8px;top:8px;}
+  #quick-exit{
+    position:fixed; top:14px; right:14px; z-index:50;
+    background:var(--coral); color:#fff; border:none; border-radius:6px;
+    padding:10px 16px; font-weight:700; font-size:15px; cursor:pointer;
+  }
+  .exit-hint{position:fixed; top:48px; right:14px; z-index:50; color:#fff; font-size:11px; opacity:.85;}
+  header.hero{
+    background:var(--cream); color:#2a2438; padding:40px 24px 32px; text-align:left;
+  }
+  .lang-switch{max-width:900px;margin:0 auto 8px;font-size:13px;}
+  .lang-switch a{text-decoration:underline;font-weight:600;}
+  .hero-inner{max-width:900px;margin:0 auto;}
+  .brand-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .brand-row img{width:64px;height:64px;border-radius:8px;background:#fff;object-fit:contain;border:1px solid #eee;}
+  .kicker{color:var(--gold); font-weight:700; letter-spacing:.06em; font-size:13px; text-transform:uppercase; margin-top:18px;}
+  h1{font-size:2.4rem; margin:.25rem 0 .75rem;}
+  .lede{font-size:1.05rem; max-width:640px; line-height:1.5;}
+  nav.pages{margin-top:14px; font-size:15px;}
+  nav.pages a{margin-right:18px; text-decoration:underline;}
+  .en-tag{font-size:11px; opacity:.7; font-weight:400;}
+  .hotline-bar{
+    background:var(--coral); color:#fff; padding:18px 24px; text-align:left;
+  }
+  .hotline-bar .inner{max-width:900px;margin:0 auto;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+  .hotline-bar .label{font-weight:700; font-size:13px; letter-spacing:.04em; text-transform:uppercase;}
+  .hotline-bar .number{font-size:1.6rem; font-weight:800;}
+  .hotline-bar .tdd{font-size:13px; opacity:.9;}
+  main{max-width:900px;margin:0 auto; padding:24px;}
+  .search-wrap{margin:22px 0 28px;}
+  .search-wrap input{
+    width:100%; padding:14px 16px; font-size:16px; border-radius:8px; border:none;
+  }
+  .search-hint{color:#e6def2; font-size:13px; margin-top:6px;}
+  .region-heading{color:#fff; border-bottom:3px solid var(--gold); display:inline-block; padding-bottom:4px; margin:34px 0 14px;}
+  .card{
+    background:var(--card-bg); border-radius:10px; padding:16px 18px; margin-bottom:12px;
+  }
+  .card h3{margin:0 0 4px; font-size:1.05rem;}
+  .card .counties{color:#555; font-size:14px; margin-bottom:8px;}
+  .card a.tel{font-weight:700; text-decoration:none; color:var(--purple-b);}
+  .card a.site{margin-left:14px; font-size:14px; text-decoration:underline; color:#555;}
+  .no-results{color:#fff; background:rgba(255,255,255,.08); padding:16px; border-radius:8px; display:none;}
+  footer{max-width:900px;margin:0 auto; padding:24px; color:#e6def2; font-size:13px; line-height:1.6;}
+  footer a{text-decoration:underline; color:#f3d9a8;}
+  @media (max-width:600px){ h1{font-size:1.8rem;} .hotline-bar .number{font-size:1.3rem;} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir al directorio</a>
+<button id="quick-exit" onclick="quickExit()" aria-label="Salir de este sitio inmediatamente">Salir del sitio ✕</button>
+<div class="exit-hint">Presiona Esc 3× para salir rápido</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="lang-switch">🌐 <a href="/index.html">English</a> · <strong>Español</strong></div>
+    <div class="brand-row">
+      <img src="/assets/logo.png" alt="Logotipo de Women of Florida Shelters">
+      <div>
+        <div class="kicker" style="margin-top:0;">Centro de Recursos y Apoyo entre Pares</div>
+        <h1 style="margin-top:.25rem;">Women of Florida Shelters</h1>
+      </div>
+    </div>
+    <p class="lede">Todos los centros de violencia doméstica certificados por FCADV en Florida, agrupados por región, para que encuentres rápidamente el que cubre tu condado.</p>
+    <nav class="pages">
+      <a href="/es/index.html">Vista de lista</a>
+      <a href="/map.html">Vista de mapa <span class="en-tag">(EN)</span></a>
+      <a href="/resources.html">Recursos <span class="en-tag">(en inglés)</span></a>
+      <a href="/about.html">Acerca de <span class="en-tag">(en inglés)</span></a>
+    </nav>
+  </div>
+</header>
+
+<div class="hotline-bar">
+  <div class="inner">
+    <span class="label">Línea Directa Estatal 24/7</span>
+    <span class="number">1-800-500-1119</span>
+    <span class="tdd">TDD: 1-800-621-4202</span>
+  </div>
+</div>
+
+<main id="main">
+  <p style="color:#e6def2; font-size:14px; max-width:640px;">
+    Si tu teléfono podría estar siendo monitoreado, enviar un mensaje de texto puede ser más seguro que llamar:
+    envía <strong>START</strong> al <strong>88788</strong> para comunicarte con la Línea Nacional de Violencia Doméstica.
+    Un defensor que habla español puede ayudarte por teléfono, texto o chat en
+    <a href="https://www.thehotline.org/es/" style="color:#f3d9a8;">thehotline.org/es</a>.
+  </p>
+
+  <div class="search-wrap">
+    <label for="shelter-search" style="color:#fff; font-weight:600; display:block; margin-bottom:6px;">Busca por condado, región o nombre del centro</label>
+    <input id="shelter-search" type="text" placeholder="Busca por condado, región o nombre del centro…" oninput="filterShelters(this.value)">
+    <div class="search-hint">Por ejemplo, prueba con "Duval", "Tampa Bay" o "Harbor House".</div>
+  </div>
+
+  <div id="no-results" class="no-results">Ningún centro coincide con esa búsqueda. Intenta con otro nombre de condado, o llama a la línea estatal arriba — los defensores pueden ayudarte a encontrar el recurso correcto.</div>
+
+  <div id="directory">
+    <section data-region="Panhandle">
+      <h2 class="region-heading">Panhandle</h2>
+      <article class="card" data-search="favor house of northwest florida escambia santa rosa panhandle">
+        <h3>Favor House of Northwest Florida</h3>
+        <div class="counties">Condados: Escambia, Santa Rosa</div>
+        <a class="tel" href="tel:8504341177">(850) 434-1177</a><a class="site" href="https://favorhouse.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="shelter house inc okaloosa walton panhandle">
+        <h3>Shelter House, Inc.</h3>
+        <div class="counties">Condados: Okaloosa, Walton</div>
+        <a class="tel" href="tel:8502431201">(850) 243-1201</a><a class="site" href="https://shelterhousenwfl.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="salvation army of panama city bay calhoun gulf holmes jackson washington panhandle">
+        <h3>Salvation Army of Panama City</h3>
+        <div class="counties">Condados: Bay, Calhoun, Gulf, Holmes, Jackson, Washington</div>
+        <a class="tel" href="tel:8507697989">(850) 769-7989</a><a class="site" href="https://salvationarmypanamacity.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="refuge house gadsden franklin jefferson leon liberty madison taylor wakulla panhandle">
+        <h3>Refuge House</h3>
+        <div class="counties">Condados: Gadsden, Franklin, Jefferson, Leon, Liberty, Madison, Taylor, Wakulla</div>
+        <a class="tel" href="tel:8509226062">(850) 922-6062</a><a class="site" href="https://refugehouse.com">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="North Central">
+      <h2 class="region-heading">Centro-Norte</h2>
+      <article class="card" data-search="another way inc columbia dixie gilchrist hamilton lafayette levy centro norte">
+        <h3>Another Way, Inc.</h3>
+        <div class="counties">Condados: Columbia, Dixie, Gilchrist, Hamilton, Lafayette, Levy</div>
+        <a class="tel" href="tel:3867192700">(386) 719-2700</a><a class="site" href="https://anotherwayinc.net">Sitio web</a>
+      </article>
+      <article class="card" data-search="vivid visions inc suwannee centro norte">
+        <h3>Vivid Visions, Inc.</h3>
+        <div class="counties">Condados: Suwannee</div>
+        <a class="tel" href="tel:3863645957">(386) 364-5957</a><a class="site" href="https://vividvisionsinc.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="peaceful paths domestic abuse network alachua bradford union centro norte">
+        <h3>Peaceful Paths Domestic Abuse Network</h3>
+        <div class="counties">Condados: Alachua, Bradford, Union</div>
+        <a class="tel" href="tel:3523775690">(352) 377-5690</a><a class="site" href="https://peacefulpaths.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="ocala domestic violence sexual assault center marion centro norte">
+        <h3>Ocala Domestic Violence / Sexual Assault Center</h3>
+        <div class="counties">Condados: Marion</div>
+        <a class="tel" href="tel:3523514009">(352) 351-4009</a>
+      </article>
+    </section>
+
+    <section data-region="Northeast">
+      <h2 class="region-heading">Noreste</h2>
+      <article class="card" data-search="hubbard house spouse abuse inc baker duval noreste">
+        <h3>Hubbard House (Spouse Abuse, Inc.)</h3>
+        <div class="counties">Condados: Baker, Duval</div>
+        <a class="tel" href="tel:9043540076">(904) 354-0076</a>
+      </article>
+      <article class="card" data-search="micah's place inc nassau noreste">
+        <h3>Micah's Place, Inc.</h3>
+        <div class="counties">Condados: Nassau</div>
+        <a class="tel" href="tel:9044916364">(904) 491-6364</a><a class="site" href="https://micahsplace.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="quigley house inc clay noreste">
+        <h3>Quigley House, Inc.</h3>
+        <div class="counties">Condados: Clay</div>
+        <a class="tel" href="tel:9042840340">(904) 284-0340</a><a class="site" href="https://quigleyhouse.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="betty griffin house safety shelter of st johns co st johns noreste">
+        <h3>Betty Griffin House (Safety Shelter of St. Johns Co.)</h3>
+        <div class="counties">Condados: St. Johns</div>
+        <a class="tel" href="tel:9048088544">(904) 808-8544</a>
+      </article>
+      <article class="card" data-search="lee conlee house putnam noreste">
+        <h3>Lee Conlee House</h3>
+        <div class="counties">Condados: Putnam</div>
+        <a class="tel" href="tel:3863254447">(386) 325-4447</a><a class="site" href="https://leeconleehouse.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="beacon center volusia noreste">
+        <h3>Beacon Center</h3>
+        <div class="counties">Condados: Volusia</div>
+        <a class="tel" href="tel:3862572297">(386) 257-2297</a>
+      </article>
+      <article class="card" data-search="family life center flagler ecumenical ssc flagler noreste">
+        <h3>Family Life Center (Flagler Ecumenical SSC)</h3>
+        <div class="counties">Condados: Flagler</div>
+        <a class="tel" href="tel:3864377747">(386) 437-7747</a><a class="site" href="https://familylifecenterflagler.org">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="Central">
+      <h2 class="region-heading">Centro</h2>
+      <article class="card" data-search="harbor house orange centro">
+        <h3>Harbor House</h3>
+        <div class="counties">Condados: Orange</div>
+        <a class="tel" href="tel:4078862244">(407) 886-2244</a><a class="site" href="https://harborhousefl.com">Sitio web</a>
+      </article>
+      <article class="card" data-search="haven of lake and sumter counties sumter lake centro">
+        <h3>Haven of Lake and Sumter Counties</h3>
+        <div class="counties">Condados: Sumter, Lake</div>
+        <a class="tel" href="tel:3523150591">(352) 315-0591</a><a class="site" href="https://havenlakesumter.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="help now of osceola inc osceola centro">
+        <h3>Help Now of Osceola, Inc.</h3>
+        <div class="counties">Condados: Osceola</div>
+        <a class="tel" href="tel:4078473260">(407) 847-3260</a>
+      </article>
+      <article class="card" data-search="peace river center dv shelter hardee highlands polk centro">
+        <h3>Peace River Center DV Shelter</h3>
+        <div class="counties">Condados: Hardee, Highlands, Polk</div>
+        <a class="tel" href="tel:8634132708">(863) 413-2708</a><a class="site" href="https://peacerivercenter.org">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="Tampa Bay">
+      <h2 class="region-heading">Bahía de Tampa</h2>
+      <article class="card" data-search="community action stops abuse pinellas tampa bay">
+        <h3>Community Action Stops Abuse</h3>
+        <div class="counties">Condados: Pinellas</div>
+        <a class="tel" href="tel:7278954912">(727) 895-4912</a><a class="site" href="https://casa-stpete.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="the haven of rcs pinellas tampa bay">
+        <h3>The Haven of RCS</h3>
+        <div class="counties">Condados: Pinellas</div>
+        <a class="tel" href="tel:7275843528">(727) 584-3528</a><a class="site" href="https://rcspinellas.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="dawn center of hernando co salvare inc hernando tampa bay">
+        <h3>DAWN Center of Hernando Co. (Salvare, Inc.)</h3>
+        <div class="counties">Condados: Hernando</div>
+        <a class="tel" href="tel:3526847191">(352) 684-7191</a><a class="site" href="https://thedawncenter.com">Sitio web</a>
+      </article>
+      <article class="card" data-search="sunrise of pasco pasco tampa bay">
+        <h3>Sunrise of Pasco</h3>
+        <div class="counties">Condados: Pasco</div>
+        <a class="tel" href="tel:3525213358">(352) 521-3358</a><a class="site" href="https://sunrisepasco.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="salvation army dv program of west pasco pasco tampa bay">
+        <h3>Salvation Army DV Program of West Pasco</h3>
+        <div class="counties">Condados: Pasco</div>
+        <a class="tel" href="tel:7278566498">(727) 856-6498</a><a class="site" href="https://salvationarmywestpasco.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="the spring of tampa bay inc hillsborough tampa bay">
+        <h3>The Spring of Tampa Bay, Inc.</h3>
+        <div class="counties">Condados: Hillsborough</div>
+        <a class="tel" href="tel:8132475433">(813) 247-5433</a><a class="site" href="https://thespring.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="citrus county abuse shelter assoc casa citrus tampa bay">
+        <h3>Citrus County Abuse Shelter Assoc. (CASA)</h3>
+        <div class="counties">Condados: Citrus</div>
+        <a class="tel" href="tel:3523448112">(352) 344-8112</a><a class="site" href="https://casafl.org">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="Southwest">
+      <h2 class="region-heading">Suroeste</h2>
+      <article class="card" data-search="abuse counseling and treatment inc act glades hendry lee suroeste">
+        <h3>Abuse Counseling and Treatment, Inc. (ACT)</h3>
+        <div class="counties">Condados: Glades, Hendry, Lee</div>
+        <a class="tel" href="tel:2399392553">(239) 939-2553</a><a class="site" href="https://actabuse.com">Sitio web</a>
+      </article>
+      <article class="card" data-search="center for abuse and rape emergencies care charlotte suroeste">
+        <h3>Center for Abuse and Rape Emergencies (CARE)</h3>
+        <div class="counties">Condados: Charlotte</div>
+        <a class="tel" href="tel:9416395499">(941) 639-5499</a><a class="site" href="https://carefl.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="safe place and rape crisis center sparcc desoto sarasota suroeste">
+        <h3>Safe Place and Rape Crisis Center (SPARCC)</h3>
+        <div class="counties">Condados: DeSoto, Sarasota</div>
+        <a class="tel" href="tel:9413650208">(941) 365-0208</a><a class="site" href="https://sparcc.net">Sitio web</a>
+      </article>
+      <article class="card" data-search="shelter for abused women children sawcc collier suroeste">
+        <h3>Shelter for Abused Women &amp; Children (SAWCC)</h3>
+        <div class="counties">Condados: Collier</div>
+        <a class="tel" href="tel:2397753862">(239) 775-3862</a><a class="site" href="https://naplesshelter.org">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="Space & Treasure Coast">
+      <h2 class="region-heading">Costa Espacial y del Tesoro</h2>
+      <article class="card" data-search="salvation army brevard county brevard costa espacial tesoro">
+        <h3>Salvation Army Brevard County</h3>
+        <div class="counties">Condados: Brevard</div>
+        <a class="tel" href="tel:3216312766">(321) 631-2766</a><a class="site" href="https://salvationarmyncbrevard.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="serene harbor brevard costa espacial tesoro">
+        <h3>Serene Harbor</h3>
+        <div class="counties">Condados: Brevard</div>
+        <a class="tel" href="tel:3217268282">(321) 726-8282</a><a class="site" href="https://sereneharbor.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="safespace inc indian river martin st lucie costa espacial tesoro">
+        <h3>SafeSpace, Inc.</h3>
+        <div class="counties">Condados: Indian River, Martin, St. Lucie</div>
+        <a class="tel" href="tel:7722232399">(772) 223-2399</a><a class="site" href="https://safespacefl.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="martha's house okeechobee costa espacial tesoro">
+        <h3>Martha's House</h3>
+        <div class="counties">Condados: Okeechobee</div>
+        <a class="tel" href="tel:8637632893">(863) 763-2893</a><a class="site" href="https://marthashouse.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="safehouse of seminole seminole costa espacial tesoro">
+        <h3>SafeHouse of Seminole</h3>
+        <div class="counties">Condados: Seminole</div>
+        <a class="tel" href="tel:4073025220">(407) 302-5220</a><a class="site" href="https://safehousefl.com">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="Southeast">
+      <h2 class="region-heading">Sureste</h2>
+      <article class="card" data-search="aid to victims of domestic abuse palm beach sureste">
+        <h3>Aid to Victims of Domestic Abuse</h3>
+        <div class="counties">Condados: Palm Beach</div>
+        <a class="tel" href="tel:5612653797">(561) 265-3797</a>
+      </article>
+      <article class="card" data-search="ywca harmony house of palm beach county palm beach sureste">
+        <h3>YWCA Harmony House of Palm Beach County</h3>
+        <div class="counties">Condados: Palm Beach</div>
+        <a class="tel" href="tel:5616400050">(561) 640-0050</a><a class="site" href="https://ywcapbc.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="women in distress of broward county broward sureste">
+        <h3>Women In Distress of Broward County</h3>
+        <div class="counties">Condados: Broward</div>
+        <a class="tel" href="tel:9547609800">(954) 760-9800</a>
+      </article>
+      <article class="card" data-search="hope family services inc manatee sureste">
+        <h3>HOPE Family Services, Inc.</h3>
+        <div class="counties">Condados: Manatee</div>
+        <a class="tel" href="tel:9417478499">(941) 747-8499</a><a class="site" href="https://hopefamilyservice.org">Sitio web</a>
+      </article>
+    </section>
+
+    <section data-region="South Florida">
+      <h2 class="region-heading">Sur de Florida</h2>
+      <article class="card" data-search="miami-dade advocates for victims safespace north miami-dade sur de florida">
+        <h3>Miami-Dade Advocates for Victims, Safespace</h3>
+        <div class="counties">Condados: Norte de Miami-Dade</div>
+        <a class="tel" href="tel:3052855904">(305) 285-5904</a><a class="site" href="https://safespacefoundation.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="the lodge victim response inc miami-dade sur de florida">
+        <h3>The Lodge (Victim Response, Inc.)</h3>
+        <div class="counties">Condados: Miami-Dade</div>
+        <a class="tel" href="tel:3056672456">(305) 667-2456</a><a class="site" href="https://thelodgemiami.org">Sitio web</a>
+      </article>
+      <article class="card" data-search="domestic abuse shelter monroe sur de florida">
+        <h3>Domestic Abuse Shelter</h3>
+        <div class="counties">Condados: Monroe</div>
+        <a class="tel" href="tel:3057435452">(305) 743-5452</a>
+      </article>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <p>Esta página es solo un directorio — no opera ningún refugio. Si estás en peligro inmediato, llama al 911. Para la lista oficial estatal, visita <a href="https://www.fcadv.org/centers">fcadv.org/centers</a>.</p>
+  <p>Si te preocupa que alguien pueda ver que visitaste esta página: el botón "Salir del sitio" (o presionar Esc tres veces) te lleva de inmediato a una página neutral. Considera usar una ventana privada/incógnito y borrar tu historial de navegación después.</p>
+  <p>📘 Síguenos para recibir actualizaciones y apoyo entre pares: <a href="https://www.facebook.com/profile.php?id=61593326546382">Women Of Florida Shelters en Facebook</a>.</p>
+</footer>
+
+<script>
+function quickExit(){
+  window.location.replace('https://www.weather.com');
+}
+(function(){
+  var count = 0, timer = null;
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){
+      count++;
+      clearTimeout(timer);
+      timer = setTimeout(function(){ count = 0; }, 1200);
+      if (count >= 3){ quickExit(); }
+    }
+  });
+})();
+function filterShelters(query){
+  var q = query.trim().toLowerCase();
+  var sections = document.querySelectorAll('#directory > section');
+  var anyVisible = false;
+  sections.forEach(function(section){
+    var cards = section.querySelectorAll('.card');
+    var sectionHasVisible = false;
+    cards.forEach(function(card){
+      var haystack = card.getAttribute('data-search') || '';
+      var match = q === '' || haystack.indexOf(q) !== -1;
+      card.style.display = match ? '' : 'none';
+      if (match){ sectionHasVisible = true; anyVisible = true; }
+    });
+    section.style.display = sectionHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+}
+</script>
+</body>
+</html>
