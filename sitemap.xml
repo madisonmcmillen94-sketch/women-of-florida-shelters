@@ -5,4 +5,6 @@
   <url><loc>https://womenoffloridashelters.org/map.html</loc><priority>0.8</priority></url>
   <url><loc>https://womenoffloridashelters.org/resources.html</loc><priority>0.8</priority></url>
   <url><loc>https://womenoffloridashelters.org/about.html</loc><priority>0.8</priority></url>
+  <url><loc>https://womenoffloridashelters.org/es/resources.html</loc><priority>0.7</priority></url>
+  <url><loc>https://womenoffloridashelters.org/es/about.html</loc><priority>0.7</priority></url>
 </urlset>
